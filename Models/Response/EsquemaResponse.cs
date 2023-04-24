@@ -158,17 +158,8 @@ namespace HUSI_SIISA.Models.Response
         /// </summary>
         /// <requerido>NO</requerido>
         /// <tipo_dato>Int32</tipo_dato>
-        [JsonProperty("idProducto")]
-        [JsonPropertyOrder(17)]
-        public Int32 IdProducto { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <requerido>NO</requerido>
-        /// <tipo_dato>Int32</tipo_dato>
         [JsonProperty("idOrden")]
-        [JsonPropertyOrder(18)]
+        [JsonPropertyOrder(17)]
         public Int32 IdOrden { get; set; }
 
         /// <summary>
@@ -177,7 +168,7 @@ namespace HUSI_SIISA.Models.Response
         /// <requerido>NO</requerido>
         /// <tipo_dato>Int16</tipo_dato>
         [JsonProperty("idEstudiante")]
-        [JsonPropertyOrder(19)]
+        [JsonPropertyOrder(18)]
         public Int16 IdEstudiante { get; set; }
 
         /// <summary>
@@ -186,7 +177,7 @@ namespace HUSI_SIISA.Models.Response
         /// <requerido>NO</requerido>
         /// <tipo_dato>Int16</tipo_dato>
         [JsonProperty("idDocente")]
-        [JsonPropertyOrder(20)]
+        [JsonPropertyOrder(19)]
         public Int16 IdDocente { get; set; }
 
         /// <summary>
@@ -195,7 +186,7 @@ namespace HUSI_SIISA.Models.Response
         /// <requerido>NO</requerido>
         /// <tipo_dato>String</tipo_dato>
         [JsonProperty("indEvaluado")]
-        [JsonPropertyOrder(21)]
+        [JsonPropertyOrder(20)]
         public string? IndEvaluado { get; set; }
 
         /// <summary>
@@ -204,7 +195,7 @@ namespace HUSI_SIISA.Models.Response
         /// <requerido>NO</requerido>
         /// <tipo_dato>Boolean</tipo_dato>
         [JsonProperty("indEstudianteEnEval")]
-        [JsonPropertyOrder(22)]
+        [JsonPropertyOrder(21)]
         public Boolean IndEstudianteEnEval { get; set; }
 
         /// <summary>
@@ -213,7 +204,7 @@ namespace HUSI_SIISA.Models.Response
         /// <requerido>NO</requerido>
         /// <tipo_dato>DateTime</tipo_dato>
         [JsonProperty("fecEval")]
-        [JsonPropertyOrder(23)]
+        [JsonPropertyOrder(22)]
         public DateTime FecEval { get; set; }
 
         /// <summary>
@@ -222,7 +213,7 @@ namespace HUSI_SIISA.Models.Response
         /// <requerido>NO</requerido>
         /// <tipo_dato>Boolean</tipo_dato>
         [JsonProperty("indMigrado")]
-        [JsonPropertyOrder(24)]
+        [JsonPropertyOrder(23)]
         public Boolean IndMigrado { get; set; }
 
         /// <summary>
@@ -231,7 +222,7 @@ namespace HUSI_SIISA.Models.Response
         /// <requerido>NO</requerido>
         /// <tipo_dato>Int16</tipo_dato>
         [JsonProperty("idInterno")]
-        [JsonPropertyOrder(25)]
+        [JsonPropertyOrder(24)]
         public Int16 IdInterno { get; set; }
 
         /// <summary>
@@ -240,7 +231,7 @@ namespace HUSI_SIISA.Models.Response
         /// <requerido>NO</requerido>
         /// <tipo_dato>String</tipo_dato>
         [JsonProperty("indResCritico")]
-        [JsonPropertyOrder(26)]
+        [JsonPropertyOrder(25)]
         public string? IndResCritico { get; set; }
 
         /// <summary>
@@ -249,7 +240,7 @@ namespace HUSI_SIISA.Models.Response
         /// <requerido>NO</requerido>
         /// <tipo_dato>DateTime</tipo_dato>
         [JsonProperty("fechaConducta")]
-        [JsonPropertyOrder(27)]
+        [JsonPropertyOrder(26)]
         public DateTime FechaConducta { get; set; }
 
         /// <summary>
@@ -258,7 +249,7 @@ namespace HUSI_SIISA.Models.Response
         /// <requerido>NO</requerido>
         /// <tipo_dato>String</tipo_dato>
         [JsonProperty("conducta")]
-        [JsonPropertyOrder(28)]
+        [JsonPropertyOrder(27)]
         public string? Conducta { get; set; }
     }
 }

@@ -31,7 +31,6 @@ namespace HUSI_SIISA.Controllers
         ///     {
         ///         "atencion": "",
         ///         "orden": "",
-        ///         "idUbicacion": "",
         ///         "idEsquema": ""
         ///     }
         /// </remarks>
