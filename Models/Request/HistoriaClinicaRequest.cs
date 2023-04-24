@@ -17,7 +17,7 @@ namespace HUSI_SIISA.Models.Request
         /// <tipo_dato>Int32</tipo_dato>
         [Required]
         [JsonProperty("idConsulta")]
-        public Int32 IdConsulta { get; set; }
+        public string? IdConsulta { get; set; }
 
         /// <summary>
         /// 
@@ -35,7 +35,7 @@ namespace HUSI_SIISA.Models.Request
         /// <tipo_dato>Int32</tipo_dato>
         [Required]
         [JsonProperty("idPaciente")]
-        public Int32 IdPaciente { get; set; }
+        public string? IdPaciente { get; set; }
 
         /// <summary>
         /// 
