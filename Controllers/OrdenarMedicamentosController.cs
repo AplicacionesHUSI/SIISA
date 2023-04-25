@@ -369,7 +369,7 @@ namespace HUSI_SIISA.Controllers
 #pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
                     ordenarMedicamentosResponse.Resultado = false;
                     ordenarMedicamentosResponse.Mensaje = "En Construción";
-                    ordenarMedicamentosResponse.DetalleMensaje = "En Construccion";
+                    ordenarMedicamentosResponse.DetalleMensaje = "En Construcción";
                     return Ok(ordenarMedicamentosResponse);
 #pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
                 }

@@ -127,7 +127,7 @@ namespace HUSI_SIISA.Controllers
                     {
                         dataCargar = "Numero de Nota:" + notaEnfermeriaRequest.IdConsulta + "Feha Nota:" + notaEnfermeriaRequest.FechaNota + " Numero de Consulta:" + notaEnfermeriaRequest.IdConsulta + salto;
                         //dataCargar = dataCargar + "No Documento:" + pacienteW.NumDocumento + "           Tipo:" + pacienteW.IdTipoDoc + salto;
-                        // = dataCargar + "Nombre Paciente:" + pacienteW.NomCliente + " " + pacienteW.ApeCliente + "Fecha Nacimiento:" + pacienteW.FecNacimiento + salto;
+                        //dataCargar = dataCargar + "Nombre Paciente:" + pacienteW.NomCliente + " " + pacienteW.ApeCliente + "Fecha Nacimiento:" + pacienteW.FecNacimiento + salto;
                         //dataCargar = dataCargar + "Direccion:" + pacienteW.DirCasa + "      Telefonos:" + pacienteW.TelCasa + " " + pacienteW.TelCelular + salto;
                         dataCargar = dataCargar + "Numero de Atencion:" + notaEnfermeriaRequest.IdAtencion + salto;
                         dataCargar = dataCargar + " " + salto;
