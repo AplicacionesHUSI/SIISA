@@ -82,7 +82,6 @@ namespace HUSI_SIISA.Utilities
         /// <param name="tipo">Tipo de validacion (1:Historia,2:Medicamentos,3:Procedimientos)</param>
         /// <param name="idAtencion"> El ID de la atencion en la cual se esta atendiendo el paciente</param> 
         /// <returns>Numero de la Nota en SAHI</returns>
-
         public ValidacionNotas ValidaConsulta(int nroConsulta, string tipo, int idAtencion)
         {
             string qryValida = string.Empty;
@@ -137,7 +136,7 @@ namespace HUSI_SIISA.Utilities
         /// </summary>
         /// <param name="tabla">Nombre de la tabla para cual se desea obtener el consecutivo</param>
         /// <returns>Numero consecutivo Obtenido</returns>
-        public Int32 consecutivoSistabla(string tabla)
+        public Int32 ConsecutivoSistabla(string tabla)
         {
             //hceNotasAte
             try
@@ -189,7 +188,7 @@ namespace HUSI_SIISA.Utilities
         /// <param name="fechaNota">Fecha de la realizacion de la Nota</param>
         /// <param name="tipo"></param>
         /// <returns></returns>
-        public Boolean insertaSahicoRel(Int32 nroConsultaSahico, Int32 idNota, Int32 idAtencion, Int16 idTipoNota, DateTime fechaNota, Int16 tipo)
+        public Boolean InsertaSahicoRel(Int32 nroConsultaSahico, Int32 idNota, Int32 idAtencion, Int16 idTipoNota, DateTime fechaNota, Int16 tipo)
         {
             bool respuesta = false;
             DBConnection conn = new();
@@ -220,6 +219,55 @@ namespace HUSI_SIISA.Utilities
                 cmdActualizaRelacion.Parameters.Add("@idAtencion", SqlDbType.Int).Value = idAtencion;
                 cmdActualizaRelacion.Parameters.Add("@idTipoNota", SqlDbType.SmallInt).Value = idTipoNota;
                 cmdActualizaRelacion.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = fechaNota;
+                if (cmdActualizaRelacion.ExecuteNonQuery() > 0)
+                {
+                    respuesta = true;
+                }
+                return respuesta;
+            }
+        }
+
+        /// <summary>
+        /// Actualiza una consulta de SAHICO en la tabla de relacion con Notas de SAHI
+        /// </summary>
+        /// <param name="nroConsultaSahico"></param>
+        /// <param name="idNota"></param>
+        /// <param name="idAtencion"></param>
+        /// <param name="fechaNota"></param>
+        /// <param name="tipo"></param>
+        /// <returns></returns>
+        public Boolean ActualizarSahicoRel(Int32 nroConsultaSahico, Int32 idNota, Int32 nvaNota, Int32 idAtencion, DateTime fechaNota, Int16 tipo)
+        {
+            bool respuesta = false;
+            DBConnection conn = new();
+            using (SqlConnection conexion = new(conn.getCs()))
+            {
+                string ActualizaRelacion = string.Empty;
+                conexion.Open();
+                switch (tipo)
+                {
+                    case 1:
+                        ActualizaRelacion = "UPDATE hceIntegraSahicoRel SET insumos=1,idNotaMed=@idNota WHERE nroConsultaSahico=@nroConsulta AND idNota=@idNota AND idAtencion=@idAtencion";
+                        break;
+
+                    case 2:
+                        ActualizaRelacion = "UPDATE hceIntegraSahicoRel SET medicamentos=1,idNotaMed=@idNuevaNota WHERE nroConsultaSahico=@nroConsulta AND idNota=@idNota AND idAtencion=@idAtencion";
+                        break;
+
+                    case 3:
+                        ActualizaRelacion = "UPDATE hceIntegraSahicoRel SET procedimientos=1,idNotaProc=@idNuevaNota WHERE nroConsultaSahico=@nroConsulta AND idNota=@idNota AND idAtencion=@idAtencion";
+                        break;
+                }
+
+
+                SqlCommand cmdActualizaRelacion = new SqlCommand(ActualizaRelacion, conexion);
+                cmdActualizaRelacion.Parameters.Add("@nroConsulta", SqlDbType.Int).Value = nroConsultaSahico;
+                cmdActualizaRelacion.Parameters.Add("@idNota", SqlDbType.Int).Value = idNota;
+                cmdActualizaRelacion.Parameters.Add("@idNuevaNota", SqlDbType.Int).Value = nvaNota;
+                cmdActualizaRelacion.Parameters.Add("@idAtencion", SqlDbType.Int).Value = idAtencion;
+
+                //cmdActualizaRelacion.Parameters.Add("@idTipoNota", SqlDbType.SmallInt).Value = 187;
+                //cmdActualizaRelacion.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = fechaNota;
                 if (cmdActualizaRelacion.ExecuteNonQuery() > 0)
                 {
                     respuesta = true;

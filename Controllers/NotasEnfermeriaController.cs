@@ -11,7 +11,7 @@ using System.Data;
 namespace HUSI_SIISA.Controllers
 {
     /// <summary>
-    /// Implemembtacion del servicio Notas de Enfermeria
+    /// Implememtacion del servicio Notas de Enfermeria
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
