@@ -232,6 +232,7 @@ namespace HUSI_SIISA.Utilities
         /// </summary>
         /// <param name="nroConsultaSahico"></param>
         /// <param name="idNota"></param>
+        /// <param name="nvaNota"></param>
         /// <param name="idAtencion"></param>
         /// <param name="fechaNota"></param>
         /// <param name="tipo"></param>

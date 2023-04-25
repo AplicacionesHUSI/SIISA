@@ -140,7 +140,7 @@ namespace HUSI_SIISA.Controllers
                         dataCargar = dataCargar + "Nota de Enfermeria" + salto;
                         dataCargar = dataCargar + notaEnfermeriaRequest.NotaQx + salto;
                         dataCargar = dataCargar + "Observaciones:" + notaEnfermeriaRequest.Observaciones + salto;
-                        NumeroNota = utilLocal.consecutivoSistabla("hceNotasAte");
+                        NumeroNota = utilLocal.ConsecutivoSistabla("hceNotasAte");
                         conexion.Open();
                         SqlTransaction txTransaccion01 = conexion.BeginTransaction("TX1");
                         string actHistoria1 = "INSERT INTO hceNotasAte (IdNota, IdAtencion, FecNota, IdUbicacion, DesNota, IdUsuarioR, IdTipoNota)	VALUES (@nota,@atencion,@fechaNota,@ubicacion,@desNota,@usuario,@tipoNota)";

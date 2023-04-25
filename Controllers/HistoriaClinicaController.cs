@@ -126,7 +126,7 @@ namespace HUSI_SIISA.Controllers
                         //NumeroNota = utilLocal.validaConsulta(Int32.Parse(historiaInsertar.idconsulta), "1", Int32.Parse(historiaInsertar.idAtencion));
                         if (NumeroNota == 0)
                         {
-                            NumeroNota = utilLocal.consecutivoSistabla("hceNotasAte");
+                            NumeroNota = utilLocal.ConsecutivoSistabla("hceNotasAte");
 
                             string actHistoria1 = @"INSERT INTO hceNotasAte (IdNota, IdAtencion, FecNota, IdUbicacion, DesNota, IdUsuarioR, IdTipoNota)	VALUES (@nota,@atencion,@fechaNota,@ubicacion,@desNota,@usuario,@tipoNota)";
                             SqlCommand cmdNotasAte = new SqlCommand(actHistoria1, conexion, txTransaccion01);
@@ -162,7 +162,7 @@ namespace HUSI_SIISA.Controllers
                                 var result = await cmdEsquemasAte.ExecuteNonQueryAsync();
                                 if (result > 0)
                                 {
-                                    if (utilLocal.insertaSahicoRel(Int32.Parse(historiaRequest.IdConsulta), NumeroNota, Int32.Parse(historiaRequest.IdAtencion), 807, DateTime.Now, 0))
+                                    if (utilLocal.InsertaSahicoRel(Int32.Parse(historiaRequest.IdConsulta), NumeroNota, Int32.Parse(historiaRequest.IdAtencion), 807, DateTime.Now, 0))
                                     {
                                         logSahico.Info("!!! Transaccion realizada Exitosamente !!!");
                                         txTransaccion01.Commit();
