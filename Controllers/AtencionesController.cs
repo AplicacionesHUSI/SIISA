@@ -112,6 +112,16 @@ WHERE (cli.NumDocumento=@NumDocumento and cli.IdTipoDoc=@tipoDoc) AND A.IndActiv
                 errorResponse.Mensaje = "Error con la operacion en la base de datos, comuníquese con el administrador.";
                 return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
             }
+            catch (Exception ex3)
+            {
+                ErrorResponse errorResponse = new();
+                logSahico.Error("Error en Base de Datos :: " + ex3.Message);
+                logSahico.Info("Se ha presentado una Excepcion:" + ex3.InnerException);
+                logSahico.Info("Se ha presentado una Excepcion:" + ex3.StackTrace);
+                errorResponse.Codigo = 500;
+                errorResponse.Mensaje = "Se ha presentado una Excepcion General No controlada, comuníquese con el administrador.";
+                return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+            }
         }
     }
 }

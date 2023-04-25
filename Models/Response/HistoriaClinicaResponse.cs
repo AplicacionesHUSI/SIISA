@@ -10,7 +10,7 @@ namespace HUSI_SIISA.Models.Response
     public class HistoriaClinicaResponse
     {
         /// <summary>
-        /// 
+        /// Valor para representar el estado de la operacion o transaccion
         /// </summary>
         /// <requerido>NO</requerido>
         /// <tipo_dato>Boolean</tipo_dato>
@@ -20,9 +20,9 @@ namespace HUSI_SIISA.Models.Response
         public Boolean Resultado { get; set; }
 
         /// <summary>
-        /// 
+        /// Mensaje de aclaracion del resultado
         /// </summary>
-        /// <requerido>NO</requerido>
+        /// <requerido>SI</requerido>
         /// <tipo_dato>String</tipo_dato>
         [Required]
         [JsonProperty("mensaje")]
@@ -70,7 +70,7 @@ namespace HUSI_SIISA.Models.Response
         public Int32 IdNotaSAHI { get; set; }
 
         /// <summary>
-        /// 
+        /// Detalles tecnicos del mensaje. en especial cuando se trata de fallas no esperadas
         /// </summary>
         /// <requerido>NO</requerido>
         /// <tipo_dato>String</tipo_dato>

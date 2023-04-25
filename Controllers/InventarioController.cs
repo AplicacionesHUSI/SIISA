@@ -46,7 +46,7 @@ namespace HUSI_SIISA.Controllers
         public ActionResult CrearSolicitud([FromBody] InventarioRequest inventarioRequest)
         {
             //recepcion
-            Utilidades utilLocal = new Utilidades();
+            Utilidades utilLocal = new();
             logSahico.Info("Mensaje de PEDIDO  Recibido:" + inventarioRequest);
 
 
@@ -93,10 +93,14 @@ namespace HUSI_SIISA.Controllers
                     using (SqlConnection conexion = new(conn.getCs()))
                     {
                         conexion.Open(); // abro la conection
-                        SqlCommand cmd = new("CrearSolicitudesSAHICO", conexion); // Creo el comando que se ejecutara en este caso el SP
-                        cmd.CommandType = CommandType.StoredProcedure; // Especifico que el comando sera un Store Procedure
-                        SqlParameter paramCodRetorno = new("@idSolicitudSAHI", SqlDbType.Int);
-                        paramCodRetorno.Direction = ParameterDirection.Output;
+                        SqlCommand cmd = new("CrearSolicitudesSAHICO", conexion)
+                        {
+                            CommandType = CommandType.StoredProcedure // Especifico que el comando sera un Store Procedure
+                        }; // Creo el comando que se ejecutara en este caso el SP
+                        SqlParameter paramCodRetorno = new("@idSolicitudSAHI", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
                         cmd.Parameters.Add(paramCodRetorno);
 
                         string xmlProductos = utilLocal.GetXMLFromObject(listProductos);
@@ -178,7 +182,7 @@ namespace HUSI_SIISA.Controllers
         public ActionResult CrearDevolucion([FromBody] InventarioRequest inventarioRequest)
         {
             //recepcion
-            Utilidades utilLocal = new Utilidades();
+            Utilidades utilLocal = new();
             logSahico.Info("Mensaje de DEVOLUCION  Recibido:" + inventarioRequest);
 
 
@@ -198,8 +202,10 @@ namespace HUSI_SIISA.Controllers
                 using (SqlConnection conexion = new(conn.getCs()))
                 {
                     conexion.Open(); // abro la conection
-                    SqlCommand cmd = new("CrearDevolucionesSAHICO", conexion); // Creo el comando que se ejecutara en este caso el SP
-                    cmd.CommandType = CommandType.StoredProcedure; // Especifico que el comando sera un Store Procedure
+                    SqlCommand cmd = new("CrearDevolucionesSAHICO", conexion)
+                    {
+                        CommandType = CommandType.StoredProcedure // Especifico que el comando sera un Store Procedure
+                    }; // Creo el comando que se ejecutara en este caso el SP
                     SqlParameter paramCodRetorno = new SqlParameter("@idDevolucionSAHI", SqlDbType.Int);
                     paramCodRetorno.Direction = ParameterDirection.Output;
                     cmd.Parameters.Add(paramCodRetorno);
@@ -266,7 +272,7 @@ namespace HUSI_SIISA.Controllers
         /// <summary>
         /// Funcion interna para validar los datos de entrada
         /// </summary>
-        private InventarioResponse ValidarEntrada(InventarioRequest inventarioRequest)
+        private static InventarioResponse ValidarEntrada(InventarioRequest inventarioRequest)
         {
             var response = new InventarioResponse
             {
@@ -304,15 +310,15 @@ namespace HUSI_SIISA.Controllers
         /// <summary>
         /// Funcion interna para comprobar que un producto si existe
         /// </summary>
-        private bool ExisteProducto(int idproducto)
+        private static bool ExisteProducto(int idproducto)
         {
             var response = false;
-            DBConnection conn = new DBConnection();
-            using (SqlConnection conexion = new SqlConnection(conn.getCs()))
+            DBConnection conn = new();
+            using (SqlConnection conexion = new(conn.getCs()))
             {
                 conexion.Open(); // abro la conection                
                 string strConsultar = @"select * from proproducto where  idproducto=@idproducto";
-                SqlCommand cmdConsultar = new SqlCommand(strConsultar, conexion);
+                SqlCommand cmdConsultar = new(strConsultar, conexion);
                 cmdConsultar.Parameters.Add("@idproducto", SqlDbType.Int).Value = idproducto;
                 SqlDataReader rdConsultar = cmdConsultar.ExecuteReader();
                 response = rdConsultar.HasRows;
