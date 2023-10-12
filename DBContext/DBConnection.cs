@@ -11,8 +11,8 @@ namespace HUSI_SIISA.DBContext
         public DBConnection()
         {
             SqlConnectionStringBuilder connection = new();
-            connection.DataSource = "10.2.10.102\\HSI_TST";
-            connection.InitialCatalog = "HSI_TST";
+            connection.DataSource = "WinTFDB05";
+            connection.InitialCatalog = "SAHI";
             connection.UserID = "husi_usr";
             connection.Password = "pwdHUSI";
             connection.TrustServerCertificate = true;

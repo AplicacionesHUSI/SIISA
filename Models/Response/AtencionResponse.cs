@@ -99,5 +99,35 @@ namespace HUSI_SIISA.Models.Response
         [JsonProperty("apellidospaciente")]
         [JsonPropertyOrder(9)]
         public string? ApellidosPaciente { get; set; }
+
+        /// <summary>
+        /// IdTercero
+        /// </summary>
+        /// <requerido>SI</requerido>
+        /// <tipo_dato>int</tipo_dato>
+        [Required]
+        [JsonProperty("IdTercero")]
+        [JsonPropertyOrder(10)]
+        public int IdTercero { get; set; }
+
+        /// <summary>
+        /// CodTercero
+        /// </summary>
+        /// <requerido>SI</requerido>
+        /// <tipo_dato>Int</tipo_dato>
+        [Required]
+        [JsonProperty("CodTercero")]
+        [JsonPropertyOrder(11)]
+        public string? CodTercero { get; set; }
+
+        /// <summary>
+        /// NomTercero
+        /// </summary>
+        /// <requerido>SI</requerido>
+        /// <tipo_dato>String</tipo_dato>
+        [Required]
+        [JsonProperty("NomTercero")]
+        [JsonPropertyOrder(9)]
+        public string? NomTercero { get; set; }
     }
 }

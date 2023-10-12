@@ -154,7 +154,7 @@ namespace HUSI_SIISA.Models.Response
         public Int32 IdMovimiento { get; set; }
 
         /// <summary>
-        /// 
+        /// idorden
         /// </summary>
         /// <requerido>NO</requerido>
         /// <tipo_dato>Int32</tipo_dato>

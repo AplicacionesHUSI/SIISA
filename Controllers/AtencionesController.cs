@@ -51,18 +51,26 @@ namespace HUSI_SIISA.Controllers
                     if (atencionRequest.Servicio == 28)
                     {
                         // 28 or 59
-                        strConsultar = @"SELECT A.idCliente,A.idAtencion,A.IdAtencionTipo,B.NomAtencionTipo,D.IdAtenTipoBase,D.NomAtenTipoBase,FecIngreso,Cli.NomCliente,Cli.ApeCliente FROM admAtencion A
+                        strConsultar = @"SELECT A.idCliente,A.idAtencion,A.IdAtencionTipo,B.NomAtencionTipo,D.IdAtenTipoBase,D.NomAtenTipoBase,FecIngreso,Cli.NomCliente,Cli.ApeCliente ,GT.IdTercero,GT.CodTercero,GT.NomTercero
+FROM admAtencion A
 INNER JOIN admCliente Cli ON A.IdCliente=Cli.IdCliente
 INNER JOIN admAtencionTipo B ON A.IdAtencionTipo=B.IdAtencionTipo
 INNER JOIN admAtenTipoBase D ON B.IdAtenTipoBase=d.IdAtenTipoBase
+INNER JOIN admAtencionContrato AC ON AC.IdAtencion=A.IdAtencion and AC.OrdPrioridad=1
+INNER JOIN conContrato CC ON CC.IdContrato=AC.IdContrato 
+INNER JOIN genTercero GT ON GT.IdTercero=CC.IdTercero 
 WHERE (cli.NumDocumento=@NumDocumento and cli.IdTipoDoc=@tipoDoc) AND A.IndActivado=1 AND (A.IdAtencionTipo=@idTipoAten or A.IdAtencionTipo=59  ) ORDER BY FecIngreso DESC";
                     }
                     else
                     {
-                        strConsultar = @"SELECT A.idCliente,A.idAtencion,A.IdAtencionTipo,B.NomAtencionTipo,D.IdAtenTipoBase,D.NomAtenTipoBase,FecIngreso,Cli.NomCliente,Cli.ApeCliente FROM admAtencion A
+                        strConsultar = @"SELECT A.idCliente,A.idAtencion,A.IdAtencionTipo,B.NomAtencionTipo,D.IdAtenTipoBase,D.NomAtenTipoBase,FecIngreso,Cli.NomCliente,Cli.ApeCliente ,GT.IdTercero,GT.CodTercero,GT.NomTercero
+FROM admAtencion A
 INNER JOIN admCliente Cli ON A.IdCliente=Cli.IdCliente
 INNER JOIN admAtencionTipo B ON A.IdAtencionTipo=B.IdAtencionTipo
 INNER JOIN admAtenTipoBase D ON B.IdAtenTipoBase=d.IdAtenTipoBase
+INNER JOIN admAtencionContrato AC ON AC.IdAtencion=A.IdAtencion and AC.OrdPrioridad=1
+INNER JOIN conContrato CC ON CC.IdContrato=AC.IdContrato 
+INNER JOIN genTercero GT ON GT.IdTercero=CC.IdTercero 
 WHERE (cli.NumDocumento=@NumDocumento and cli.IdTipoDoc=@tipoDoc) AND A.IndActivado=1 AND A.IdAtencionTipo=@idTipoAten ORDER BY FecIngreso DESC";
                     }
 
@@ -74,15 +82,18 @@ WHERE (cli.NumDocumento=@NumDocumento and cli.IdTipoDoc=@tipoDoc) AND A.IndActiv
                     if (rdConsultar.HasRows)
                     {
                         rdConsultar.Read();
-                        atencionResponse.IdCliente = rdConsultar.GetInt32(0);
+                        atencionResponse.IdCliente =  rdConsultar.GetInt32(0);
                         atencionResponse.NroAtencion = rdConsultar.GetInt32(1);
                         atencionResponse.TipoAtencion = rdConsultar.GetInt16(2);
-                        atencionResponse.NombreTipoAtn = rdConsultar.GetString(3);
+                        atencionResponse.NombreTipoAtn = rdConsultar.IsDBNull(3) ? "" : rdConsultar.GetString(3);
                         atencionResponse.TipoBaseAtencion = rdConsultar.GetInt16(4);
-                        atencionResponse.NomAtnBase = rdConsultar.GetString(5);
+                        atencionResponse.NomAtnBase = rdConsultar.IsDBNull(5) ? "" : rdConsultar.GetString(5);
                         atencionResponse.FechaAtencion = rdConsultar.GetDateTime(6);
-                        atencionResponse.NombrePaciente = rdConsultar.GetString(7);
-                        atencionResponse.ApellidosPaciente = rdConsultar.GetString(8);
+                        atencionResponse.NombrePaciente = rdConsultar.IsDBNull(7) ? "" : rdConsultar.GetString(7);
+                        atencionResponse.ApellidosPaciente = rdConsultar.IsDBNull(8) ? "" : rdConsultar.GetString(8);
+                        atencionResponse.IdTercero = rdConsultar.GetInt32(9);
+                        atencionResponse.CodTercero =rdConsultar.IsDBNull(10)?"":rdConsultar.GetString(10);
+                        atencionResponse.NomTercero = rdConsultar.IsDBNull(11) ? "" : rdConsultar.GetString(11);
                         logSahico.Info("Paciente encontrado. Doc :: " + atencionRequest.NumDoc + " , atencion :: " + atencionResponse.NroAtencion);
 
                         return Ok(atencionResponse);

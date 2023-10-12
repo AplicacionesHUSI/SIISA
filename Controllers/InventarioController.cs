@@ -1,11 +1,11 @@
-﻿using HUSI_SIISA.Models.Request;
+﻿using System.Data;
+using HUSI_SIISA.DBContext;
+using HUSI_SIISA.Models.Request;
 using HUSI_SIISA.Models.Response;
 using HUSI_SIISA.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using NLog;
-using System.Data;
-using HUSI_SIISA.DBContext;
 
 namespace HUSI_SIISA.Controllers
 {
@@ -152,7 +152,7 @@ namespace HUSI_SIISA.Controllers
             catch (Exception ex3)
             {
                 ErrorResponse errorResponse = new();
-                logSahico.Error("Error en Base de Datos :: " + ex3.Message);
+                logSahico.Error("Error:: " + ex3.Message);
                 logSahico.Info("Se ha presentado una Excepcion:" + ex3.InnerException);
                 logSahico.Info("Se ha presentado una Excepcion:" + ex3.StackTrace);
                 errorResponse.Codigo = 500;
