@@ -55,23 +55,7 @@ namespace HUSI_SIISA.Models.Request
         [JsonProperty("idProfesional")]
         public Int32 IdProfesional { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <requerido>SI</requerido>
-        /// <tipo_dato>String</tipo_dato>
-        [Required]
-        [JsonProperty("analisis")]
-        public string? Analisis { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <requerido>SI</requerido>
-        /// <tipo_dato>String</tipo_dato>
-        [Required]
-        [JsonProperty("plan")]
-        public string? Plan { get; set; }
+     
 
         /// <summary>
         /// 

@@ -12,15 +12,15 @@ namespace HUSI_SIISA.Utilities
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>String</tipo_dato>
-        [JsonProperty("objetivo")]
-        public string? Objetivo { get; set; }
+        [JsonProperty("titulo")]
+        public string? Titulo { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>String</tipo_dato>
-        [JsonProperty("subjetivo")]
-        public string? Subjetivo { get; set; }
+        [JsonProperty("Cuerpo")]
+        public string? Cuerpo { get; set; }
     }
 }

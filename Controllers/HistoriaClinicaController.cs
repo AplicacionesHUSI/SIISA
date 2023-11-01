@@ -103,18 +103,36 @@ namespace HUSI_SIISA.Controllers
                         dataCargar = dataCargar + "Numero Consulta:" + historiaRequest.IdConsulta + salto;
                         dataCargar = dataCargar + "Numero de Atencion:" + historiaRequest.IdAtencion;
                         dataCargar = dataCargar + "  ID del Paciente:" + historiaRequest.IdPaciente + salto;
-                        dataCargar = dataCargar + "ANALISIS:" + historiaRequest.Analisis + salto;
-                        dataCargar = dataCargar + "CONCEPTOS:";
+                        dataCargar = dataCargar + "Informacion:" + salto;
 #pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
                         foreach (ConsultaConceptos concepto in historiaRequest.Conceptos)
                         {
-                            dataCargar = dataCargar + "Objetivo:" + salto;
-                            dataCargar = dataCargar + concepto.Objetivo + salto;
-                            dataCargar = dataCargar + "Subjetivo:" + salto;
-                            dataCargar = dataCargar + concepto.Subjetivo + salto;
+                            dataCargar = dataCargar + concepto.Titulo +":"+ salto;
+                            dataCargar = dataCargar + concepto.Cuerpo + salto;
+                            string sqlinser = @"INSERT INTO HceSiisaDatos (FecReg,Idconsulta, IdAtencion, IdCliente, IdMedico,titulo, cuerpo)	
+                                VALUES (@fecha,@consulta,@atencion,@cliente,@medico,@titulo,@cuerpo)";
+                            SqlCommand cmdinser = new SqlCommand(sqlinser, conexion);
+                            cmdinser.Parameters.Add("@fecha", SqlDbType.DateTime).Value = DateTime.Now;
+                            cmdinser.Parameters.Add("@consulta", SqlDbType.Int).Value =Convert.ToInt32(historiaRequest.IdConsulta);
+                            cmdinser.Parameters.Add("@atencion", SqlDbType.Int).Value = Convert.ToInt32(historiaRequest.IdAtencion);
+                            //cmdNotasAte.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = DateTime.Parse(historiaInsertar.fechaConsulta);
+                            cmdinser.Parameters.Add("@cliente", SqlDbType.Int).Value = Convert.ToInt32(historiaRequest.IdPaciente);
+                            cmdinser.Parameters.Add("@medico", SqlDbType.Int).Value = (historiaRequest.IdProfesional);
+                            cmdinser.Parameters.Add("@titulo", SqlDbType.Text).Value = concepto.Titulo;
+                            cmdinser.Parameters.Add("@cuerpo", SqlDbType.Text).Value = concepto.Cuerpo;
+                            logSahico.Info("********************* Valor de tipoNota:" + 807 + "  Nota:" + NumeroNota + "   Atencion:" + historiaRequest.IdAtencion + "****************************");
+                            if (cmdinser.ExecuteNonQuery() > 0)
+                            {
+
+                                logSahico.Info("Se inserto correctamente idconsulta" + historiaRequest.IdConsulta + " concepto:" + concepto.Titulo);
+                            }
+                            else
+                            {
+                                logSahico.Info("No se pudo insertar datos de concepto  idconsulta" + historiaRequest.IdConsulta + " concepto:" + concepto.Titulo);
+                            }
+
                         }
 #pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
-                        dataCargar = dataCargar + "PLAN:" + historiaRequest.Plan + salto;
                         dataCargar = dataCargar + "__________________________________________________________" + salto;
                         //***********************************************************************************
                         logSahico.Info("Datos para cargar a Historia:" + dataCargar);

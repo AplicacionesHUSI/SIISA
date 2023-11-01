@@ -127,7 +127,7 @@ namespace HUSI_SIISA.Models.Response
         /// <tipo_dato>String</tipo_dato>
         [Required]
         [JsonProperty("NomTercero")]
-        [JsonPropertyOrder(9)]
+        [JsonPropertyOrder(12)]
         public string? NomTercero { get; set; }
     }
 }

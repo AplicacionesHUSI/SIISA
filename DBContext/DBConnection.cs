@@ -8,21 +8,27 @@ namespace HUSI_SIISA.DBContext
     public class DBConnection:DbContext
     {
         String cs;
+        String cs2;
         public DBConnection()
         {
-            SqlConnectionStringBuilder connection = new();
-            connection.DataSource = "WinTFDB05";
-            connection.InitialCatalog = "SAHI";
-            connection.UserID = "husi_usr";
-            connection.Password = "pwdHUSI";
-            connection.TrustServerCertificate = true;
-            connection.MultipleActiveResultSets = true;
+
+            IConfiguration configuration = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            string con = configuration.GetConnectionString("conexion");
+            SqlConnectionStringBuilder connection = new(con);
             cs = connection.ConnectionString;
+
+            string con2 = configuration.GetConnectionString("conexionCaps");
+            SqlConnectionStringBuilder connection2 = new(con2);
+            cs2 = connection2.ConnectionString;
         }
 
         public String getCs()
         {
             return cs;
+        }
+        public String getCs2()
+        {
+            return cs2;
         }
     }
 #pragma warning restore CS1591
