@@ -39,7 +39,7 @@ namespace HUSI_SIISA.Controllers
         /// </remarks>
         [HttpPost]
         [Route("ConsultaPaciente")]
-        public ActionResult ConsultaPaciente(string documento, byte tipo)
+        public ActionResult ConsultaPaciente(PacienteRequest ppr)
         {
 
 			PacientesRequest pr = new PacientesRequest();
@@ -63,7 +63,7 @@ namespace HUSI_SIISA.Controllers
 									                                    FROM citAutoEnvioMensajes hdi
 									                                    WHERE hdi.idCliente = hd.idCliente AND hdi.idTipo = 0) AND hd.idTipo = 0
 									                                    ) hdE ON hdE.idCliente = admCliente.idCliente
-                                    WHERE admCliente.NumDocumento='" + documento + "' AND admCliente.IdTipoDoc=" + tipo;
+                                    WHERE admCliente.NumDocumento='" +ppr.Documento + "' AND admCliente.IdTipoDoc=" + ppr.Tipo;
 					SqlCommand ComandoSql = new SqlCommand(query0, conexion);
 					SqlDataReader Cliente = ComandoSql.ExecuteReader();
 					if (Cliente.HasRows)
@@ -115,7 +115,7 @@ namespace HUSI_SIISA.Controllers
 					}
 					else
 					{
-						pr.Estado = "03 |Paciente con Id=Documento:" + documento + " No Existe";
+						pr.Estado = "03 |Paciente con Id=Documento:" + ppr.Documento + " No Existe";
 						return NotFound(pr);
 					}
 				}

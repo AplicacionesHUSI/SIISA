@@ -56,8 +56,8 @@ namespace HUSI_SIISA.Controllers
                     cmdConsultar.CommandType = CommandType.StoredProcedure;
                     cmdConsultar.Parameters.Add("@idMedico", SqlDbType.Int).Value =agendaRequest.idMedico;
                     cmdConsultar.Parameters.Add("@idPaciente", SqlDbType.Int).Value = agendaRequest.idPaciente;
-                    cmdConsultar.Parameters.Add("@fechaInicial", SqlDbType.Date).Value = agendaRequest.FechaIni;
-                    cmdConsultar.Parameters.Add("@fechaFinal", SqlDbType.Date).Value = agendaRequest.FechaFin;
+                    cmdConsultar.Parameters.Add("@fechaInicial", SqlDbType.DateTime).Value = agendaRequest.FechaIni;
+                    cmdConsultar.Parameters.Add("@fechaFinal", SqlDbType.DateTime).Value = agendaRequest.FechaFin;
                     cmdConsultar.Parameters.Add("@Estado", SqlDbType.VarChar).Value = agendaRequest.EstadoCita;
                     SqlDataReader rdConsultar = cmdConsultar.ExecuteReader();
                     if (rdConsultar.HasRows)
