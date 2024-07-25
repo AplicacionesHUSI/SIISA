@@ -120,13 +120,18 @@ namespace HUSI_SIISA.Controllers
                     string salto = Environment.NewLine;
                     Int32 NumeroNota = 0;
                     Int16 medicoOrdena = 0;
+
+                    MedicosWs.ImedicosWSClient mw = new MedicosWs.ImedicosWSClient();
+                    MedicosWs.RespuestasWS rptaMedicos = new MedicosWs.RespuestasWS();
+
+                    rptaMedicos = mw.idUsuarioPersonalAsync(ordenarProcedimientosRequest.IdMedico.ToString()).Result;
                     //clientePacientesHusi.husiCliente pacienteW = new clientePacientesHusi.husiCliente();
                     //clienteInfMed.ImedicosWSClient clienteMedicos = new clienteInfMed.ImedicosWSClient();
-                    //clienteInfMed.RespuestasWS rptaMedicos = clienteMedicos.idUsuarioPersonal(procedimientos.IdMedico.ToString());
-                    //if (rptaMedicos.CodigoRpta.Equals("00"))
-                    //{
-                    //    medicoOrdena = Int16.Parse(rptaMedicos.resultado);
-                    //}
+                    //clienteInfMed.RespuestasWS rptaMedicos = clienteMedicos.idUsuarioPersonal();
+                    if (rptaMedicos.CodigoRpta.Equals("00"))
+                    {
+                        medicoOrdena = Int16.Parse(rptaMedicos.resultado);
+                    }
                     DBConnection conn = new();
                     using (SqlConnection conexion = new(conn.getCs()))
                     {

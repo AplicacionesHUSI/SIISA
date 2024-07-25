@@ -112,9 +112,9 @@ namespace HUSI_SIISA.Models.Request
         /// <summary>
         /// 
         /// </summary>
-        /// <requerido>SI</requerido>
+        /// <requerido>NO</requerido>
         /// <tipo_dato>String</tipo_dato>
-        [Required]
+        
         [JsonProperty("otraCausa")]
         public string? OtraCausa { get; set; }
 

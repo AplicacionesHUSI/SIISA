@@ -132,8 +132,11 @@ namespace HUSI_SIISA.Controllers
                 else
                 {
                     inventarioResponse.ResultadoTransaccion = "01";
+                    inventarioResponse.Atencion = inventarioRequest.IdAtencion;
+                    inventarioResponse.Documento = inventarioRequest.NumDocumento;
                     inventarioResponse.ConsecutivoRegistro = idSolicitudS;
                     inventarioResponse.Mensaje = "Resultado exitoso";
+                    inventarioResponse.Resultado = true;
 
                     return Ok(inventarioResponse);
                 }
@@ -241,6 +244,7 @@ namespace HUSI_SIISA.Controllers
                 {
                     inventarioResponse.ResultadoTransaccion = "01";
                     inventarioResponse.ConsecutivoRegistro = idSolicitudS;
+
                     inventarioResponse.Mensaje = "Transacción exitosa";
 
                     return Ok(inventarioResponse);

@@ -84,7 +84,7 @@ namespace HUSI_SIISA.Controllers
         /// <summary>
         /// Servicio para Actualizar medicamentos de una consulta
         /// </summary>
-        /// <param name="ordenarMedicamentosRequest">Estructura con los parametros para consumo del servicio</param>
+        /// <param name="ordenarMedicamentosRequest">Estructura con los parametros para consumo del servicio</param>f
         /// <returns>Estructura de datos para ordenarMedicamentosResponse con el valor Logico del resultado de la transaccion</returns>
         /// <remarks>
         /// Sample request:
@@ -122,15 +122,19 @@ namespace HUSI_SIISA.Controllers
                 string dataCargar = string.Empty;
                 var saltoLinea = Environment.NewLine;
                 Int32 NumeroNota = 0;
-                //var pacienteW = new clientePacientesHusi.husiCliente();
+                MedicosWs.ImedicosWSClient mw = new MedicosWs.ImedicosWSClient();
+                MedicosWs.RespuestasWS rptaMedicos = new MedicosWs.RespuestasWS();
+
+                rptaMedicos = mw.idUsuarioPersonalAsync(ordenarMedicamentosRequest.IdMedico.ToString()).Result;
+
                 //var clienteMedicos = new clienteInfMed.ImedicosWSClient();
 
                 //var rptaMedicos = clienteMedicos.idUsuarioPersonal(ordenarMedicamentosRequest.IdMedico.ToString());
                 Int16 medicoOrdena = 0;
-                //if (rptaMedicos.CodigoRpta.Equals("00"))
-                //{
-                //    medicoOrdena = Int16.Parse(rptaMedicos.resultado);
-                //}
+                if (rptaMedicos.CodigoRpta.Equals("00"))
+                {
+                    medicoOrdena = Int16.Parse(rptaMedicos.resultado);
+                }
 
                 DBConnection conn = new();
                 using (SqlConnection conexion = new(conn.getCs()))
@@ -277,7 +281,7 @@ namespace HUSI_SIISA.Controllers
                                     ordenarMedicamentosResponse.Resultado = true;
                                     ordenarMedicamentosResponse.Mensaje = "!!! Transaccion realizada Exitosamente !!!";
                                     ordenarMedicamentosResponse.DetalleMensaje = "";
-                                    return StatusCode(StatusCodes.Status500InternalServerError, ordenarMedicamentosResponse);
+                                    return Ok(ordenarMedicamentosResponse);
                                 }
                                 else
                                 {

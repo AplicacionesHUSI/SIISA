@@ -74,12 +74,17 @@ namespace HUSI_SIISA.Controllers
             Int16 Profesional = 0;
             try
             {
+
+                MedicosWs.ImedicosWSClient mw = new MedicosWs.ImedicosWSClient();
+                MedicosWs.RespuestasWS rptaProfesionales = new MedicosWs.RespuestasWS();
+
+                rptaProfesionales = mw.idUsuarioPersonalAsync(historiaRequest.IdProfesional.ToString()).Result;
                 //clienteInfMed.ImedicosWSClient clienteProfesionales = new clienteInfMed.ImedicosWSClient();
                 //clienteInfMed.RespuestasWS rptaProfesionales = clienteProfesionales.idUsuarioPersonal(historiaInsertar.ID_Profesional);
-                //if (rptaProfesionales.CodigoRpta.Equals("00"))
-                //{
-                //    Profesional = Int16.Parse(rptaProfesionales.resultado);
-                //}
+                if (rptaProfesionales.CodigoRpta.Equals("00"))
+                {
+                    Profesional = Int16.Parse(rptaProfesionales.resultado);
+                }
 
                 DBConnection conn = new();
                 using (SqlConnection conexion = new(conn.getCs()))
@@ -87,7 +92,7 @@ namespace HUSI_SIISA.Controllers
                     conexion.Open();
 
                     string strConsultar = string.Empty;
-                    string qryuConsultaAtn = "SELECT idAtencion FROM admAtencion WHERE idAtencion=@atencion AND IndActivado=1";
+                    string qryuConsultaAtn = "SELECT idAtencion FROM admAtencion WHERE idAtencion=@atencion";
                     SqlCommand cmdConsultaAtn = new(qryuConsultaAtn, conexion);
 #pragma warning disable CS8604 // Posible argumento de referencia nulo
                     cmdConsultaAtn.Parameters.Add("@atencion", SqlDbType.Int).Value = Int32.Parse(historiaRequest.IdAtencion);

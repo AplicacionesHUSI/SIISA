@@ -38,7 +38,6 @@ namespace HUSI_SIISA.Controllers
         [Route("GetConsAtenXDoc")]
         public ActionResult GetConsAtenXDoc([FromBody] AtencionRequest atencionRequest)
         {
-            AtencionResponse atencionResponse = new();
 
             try
             {
@@ -81,25 +80,32 @@ WHERE (cli.NumDocumento=@NumDocumento and cli.IdTipoDoc=@tipoDoc)  AND A.IdAtenc
                     SqlDataReader rdConsultar = cmdConsultar.ExecuteReader();
                     if (rdConsultar.HasRows)
                     {
-                        rdConsultar.Read();
-                        atencionResponse.IdCliente =  rdConsultar.GetInt32(0);
-                        atencionResponse.NroAtencion = rdConsultar.GetInt32(1);
-                        atencionResponse.TipoAtencion = rdConsultar.GetInt16(2);
-                        atencionResponse.NombreTipoAtn = rdConsultar.IsDBNull(3) ? "" : rdConsultar.GetString(3);
-                        atencionResponse.TipoBaseAtencion = rdConsultar.GetInt16(4);
-                        atencionResponse.NomAtnBase = rdConsultar.IsDBNull(5) ? "" : rdConsultar.GetString(5);
-                        atencionResponse.FechaAtencion = rdConsultar.GetDateTime(6);
-                        atencionResponse.NombrePaciente = rdConsultar.IsDBNull(7) ? "" : rdConsultar.GetString(7);
-                        atencionResponse.ApellidosPaciente = rdConsultar.IsDBNull(8) ? "" : rdConsultar.GetString(8);
-                        atencionResponse.IdTercero = rdConsultar.GetInt32(9);
-                        atencionResponse.CodTercero =rdConsultar.IsDBNull(10)?"":rdConsultar.GetString(10);
-                        atencionResponse.NomTercero = rdConsultar.IsDBNull(11) ? "" : rdConsultar.GetString(11);
-                        logSahico.Info("Paciente encontrado. Doc :: " + atencionRequest.NumDoc + " , atencion :: " + atencionResponse.NroAtencion);
+                        List<AtencionResponse> AtenRes = new List<AtencionResponse>();
+                        while (rdConsultar.Read())
+                        {
+                            AtencionResponse atencionResponse = new();
+                            atencionResponse.IdCliente = rdConsultar.GetInt32(0);
+                            atencionResponse.NroAtencion = rdConsultar.GetInt32(1);
+                            atencionResponse.TipoAtencion = rdConsultar.GetInt16(2);
+                            atencionResponse.NombreTipoAtn = rdConsultar.IsDBNull(3) ? "" : rdConsultar.GetString(3);
+                            atencionResponse.TipoBaseAtencion = rdConsultar.GetInt16(4);
+                            atencionResponse.NomAtnBase = rdConsultar.IsDBNull(5) ? "" : rdConsultar.GetString(5);
+                            atencionResponse.FechaAtencion = rdConsultar.GetDateTime(6);
+                            atencionResponse.NombrePaciente = rdConsultar.IsDBNull(7) ? "" : rdConsultar.GetString(7);
+                            atencionResponse.ApellidosPaciente = rdConsultar.IsDBNull(8) ? "" : rdConsultar.GetString(8);
+                            atencionResponse.IdTercero = rdConsultar.GetInt32(9);
+                            atencionResponse.CodTercero = rdConsultar.IsDBNull(10) ? "" : rdConsultar.GetString(10);
+                            atencionResponse.NomTercero = rdConsultar.IsDBNull(11) ? "" : rdConsultar.GetString(11);
+                            AtenRes.Add(atencionResponse);
 
-                        return Ok(atencionResponse);
+                            logSahico.Info("Atencion encontrado. Doc :: " + atencionRequest.NumDoc + " , atencion :: " + atencionResponse.NroAtencion);
+                        }
+
+                        return Ok(AtenRes);
                     }
                     else
                     {
+                        AtencionResponse atencionResponse = new();
                         logSahico.Info("Paciente no encontrado en SAHI con numDoc :: " + atencionRequest.NumDoc);
                         atencionResponse.IdCliente = 0;
                         atencionResponse.NroAtencion = 0;

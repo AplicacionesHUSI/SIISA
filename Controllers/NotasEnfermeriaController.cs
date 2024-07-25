@@ -109,6 +109,11 @@ namespace HUSI_SIISA.Controllers
                 string salto = @" \r\n";
                 Int32 NumeroNota = 0;
                 Int16 Profesional = 0;
+
+                MedicosWs.ImedicosWSClient mw = new MedicosWs.ImedicosWSClient();
+                MedicosWs.RespuestasWS rptaProfesionales = new MedicosWs.RespuestasWS();
+
+                rptaProfesionales = mw.idUsuarioPersonalAsync(notaEnfermeriaRequest.Profesionales[0].Id_profesional.ToString()).Result;
                 /*clientePacientesHusi.husiCliente pacienteW = new clientePacientesHusi.husiCliente();
                 clienteInfMed.ImedicosWSClient clienteProfesionales = new clienteInfMed.ImedicosWSClient();
                 clienteInfMed.RespuestasWS rptaProfesionales = clienteProfesionales.idUsuarioPersonal(notaNueva.Profesionales[0].Id_Profesional.ToString());
