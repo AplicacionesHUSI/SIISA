@@ -124,7 +124,7 @@ namespace HUSI_SIISA.Controllers
             //clientePacientesHusi.husiCliente pacienteW = new clientePacientesHusi.husiCliente();
             //clienteInfMed.ImedicosWSClient medico = new clienteInfMed.ImedicosWSClient();
             ValidacionNotas objNotas = utilLocal.ValidaConsulta(dxOrigen.IdConsulta, "1", dxOrigen.IdAtencion);
-
+            int sahico = objNotas.NroConsultaSahico;
             NumeroNota = objNotas.IdNota;
             if (NumeroNota > 0)
             {
@@ -190,7 +190,7 @@ namespace HUSI_SIISA.Controllers
                                 diagnosticosResponse.Mensaje = "Transaccion Exitosa";
                                 diagnosticosResponse.DetalleMensaje = "";
                                 diagnosticosResponse.Atencion = dxOrigen.IdAtencion;
-                                diagnosticosResponse.ConsultaSahico = dxOrigen.IdConsulta;
+                                diagnosticosResponse.ConsultaSahico = sahico;
                                 diagnosticosResponse.IdPaciente = dxOrigen.IdPaciente;
                                 diagnosticosResponse.IdNotaSAHI = NumeroNota;
                                 return Ok(diagnosticosResponse);

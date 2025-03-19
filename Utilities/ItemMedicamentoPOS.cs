@@ -31,8 +31,8 @@ namespace HUSI_SIISA.Utilities
         /// Tipo del Producto: medicamento o Insumo
         /// </summary>
         /// <tipo_dato>Integer</tipo_dato>
-        /// <requerido>true</requerido>        
-        [Required]
+        /// <requerido>false</requerido>        
+        
         [JsonProperty("tipo_Producto")]
         public string? Tipo_Producto { get; set; }
 
@@ -40,8 +40,8 @@ namespace HUSI_SIISA.Utilities
         /// Respuesta clinica Esperada.
         /// </summary>
         /// <tipo_dato>string</tipo_dato>
-        /// <requerido>true</requerido>
-        [Required]
+        /// <requerido>false</requerido>
+     
         [JsonProperty("resp_Clinica_Esp")]
         public string? Resp_Clinica_Esp { get; set; }
 
@@ -85,8 +85,8 @@ namespace HUSI_SIISA.Utilities
         /// Forma de Aplicaion del medicamento.
         /// </summary>
         /// <tipo_dato>string</tipo_dato>
-        /// <requerido>true</requerido> 
-        [Required]
+        /// <requerido>false</requerido> 
+     
         [JsonProperty("aplicacion")]
         public string? Aplicacion { get; set; }
 
@@ -103,8 +103,8 @@ namespace HUSI_SIISA.Utilities
         /// Observaciones adicionales para tener en cuenta.
         /// </summary>
         /// <tipo_dato>dtring</tipo_dato>
-        /// <requerido>true</requerido>
-        [Required]
+        /// <requerido>false</requerido>
+     
         [JsonProperty("observaciones")]
         public string? Observaciones { get; set; }
     }

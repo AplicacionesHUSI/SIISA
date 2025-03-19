@@ -24,7 +24,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>Int32</tipo_dato>
-        [Required]
+     
         [JsonProperty("idDevolucionSAHICO")]
         public Int32 IdDevolucionSAHICO { get; set; }
 
@@ -67,9 +67,9 @@ namespace HUSI_SIISA.Models.Request
         /// <summary>
         /// 
         /// </summary>
-        /// <requerido>SI</requerido>
+        /// <requerido>no</requerido>
         /// <tipo_dato>int</tipo_dato>
-        [Required]
+       
         [JsonProperty("idTipoProducto")]
         public int IdTipoProducto { get; set; }
 
@@ -78,7 +78,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>Int</tipo_dato>
-        [Required]
+ 
         [JsonProperty("idUbicacionRec")]
         public int IdUbicacionRec { get; set; }
 
@@ -87,7 +87,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>Int</tipo_dato>
-        [Required]
+     
         [JsonProperty("idUbicacionEnt")]
         public int IdUbicacionEnt { get; set; }
 
@@ -114,7 +114,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>String</tipo_dato>
-        [Required]
+       
         [JsonProperty("otraCausa")]
         public string? OtraCausa { get; set; }
 

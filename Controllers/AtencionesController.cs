@@ -59,7 +59,7 @@ INNER JOIN admAtenTipoBase D ON B.IdAtenTipoBase=d.IdAtenTipoBase
 INNER JOIN admAtencionContrato AC ON AC.IdAtencion=A.IdAtencion and AC.OrdPrioridad=1
 INNER JOIN conContrato CC ON CC.IdContrato=AC.IdContrato 
 INNER JOIN genTercero GT ON GT.IdTercero=CC.IdTercero 
-WHERE (cli.NumDocumento=@NumDocumento and cli.IdTipoDoc=@tipoDoc) AND (A.IdAtencionTipo=@idTipoAten or A.IdAtencionTipo=59  ) and A.IndActivado=1 ORDER BY FecIngreso DESC";
+WHERE (cli.NumDocumento=@NumDocumento and cli.IdTipoDoc=@tipoDoc) AND (A.IdAtencionTipo=@idTipoAten or A.IdAtencionTipo=59  ) ORDER BY FecIngreso DESC";
                     }
                     else
                     {
@@ -71,7 +71,7 @@ INNER JOIN admAtenTipoBase D ON B.IdAtenTipoBase=d.IdAtenTipoBase
 INNER JOIN admAtencionContrato AC ON AC.IdAtencion=A.IdAtencion and AC.OrdPrioridad=1
 INNER JOIN conContrato CC ON CC.IdContrato=AC.IdContrato 
 INNER JOIN genTercero GT ON GT.IdTercero=CC.IdTercero 
-WHERE (cli.NumDocumento=@NumDocumento and cli.IdTipoDoc=@tipoDoc)  AND A.IdAtencionTipo=@idTipoAten and A.IndActivado=1 ORDER BY FecIngreso DESC";
+WHERE (cli.NumDocumento=@NumDocumento and cli.IdTipoDoc=@tipoDoc)  AND A.IdAtencionTipo=@idTipoAten ORDER BY FecIngreso DESC";
                     }
 
                     SqlCommand cmdConsultar = new SqlCommand(strConsultar, conexion);
@@ -81,7 +81,9 @@ WHERE (cli.NumDocumento=@NumDocumento and cli.IdTipoDoc=@tipoDoc)  AND A.IdAtenc
                     SqlDataReader rdConsultar = cmdConsultar.ExecuteReader();
                     if (rdConsultar.HasRows)
                     {
-                        rdConsultar.Read();
+                        List<AtencionResponse> AtenRes = new List<AtencionResponse>();
+                        while (rdConsultar.Read())
+                    {
                         atencionResponse.IdCliente =  rdConsultar.GetInt32(0);
                         atencionResponse.NroAtencion = rdConsultar.GetInt32(1);
                         atencionResponse.TipoAtencion = rdConsultar.GetInt16(2);
@@ -95,8 +97,10 @@ WHERE (cli.NumDocumento=@NumDocumento and cli.IdTipoDoc=@tipoDoc)  AND A.IdAtenc
                         atencionResponse.CodTercero =rdConsultar.IsDBNull(10)?"":rdConsultar.GetString(10);
                         atencionResponse.NomTercero = rdConsultar.IsDBNull(11) ? "" : rdConsultar.GetString(11);
                         logSahico.Info("Paciente encontrado. Doc :: " + atencionRequest.NumDoc + " , atencion :: " + atencionResponse.NroAtencion);
+                        AtenRes.Add(atencionResponse);
 
-                        return Ok(atencionResponse);
+                    }
+                    return Ok(AtenRes);
                     }
                     else
                     {

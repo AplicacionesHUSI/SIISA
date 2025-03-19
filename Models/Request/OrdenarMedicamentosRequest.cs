@@ -58,8 +58,8 @@ namespace HUSI_SIISA.Models.Request
         /// Lista de Medicamentos Ordenados.
         /// </summary>
         /// <tipo_dato>Complejo-ItemMedicamentoPOS</tipo_dato>
-        /// <requerido>true</requerido>
-        [Required]
+        /// <requerido>false</requerido>
+     
         [JsonProperty("items_Medicamentos")]
         public List<ItemMedicamentoPOS>? Items_Medicamentos { get; set; }
 
@@ -67,8 +67,8 @@ namespace HUSI_SIISA.Models.Request
         /// Lista de medicamentos No POS Formulados
         /// </summary>
         /// <tipo_dato>Complejo-ItemMedicamentoNPos</tipo_dato>
-        /// <requerido>true</requerido>
-        [Required]
+        /// <requerido>false</requerido>
+      
         [JsonProperty("items_med_NPos")]
         public List<ItemMedicamentoNoPOS>? Items_med_NPos { get; set; }
     }

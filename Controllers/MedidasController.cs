@@ -157,7 +157,7 @@ namespace HUSI_SIISA.Controllers
                         using (SqlConnection conexion = new(conn.getCs()))
                         {
                             conexion.Open();
-                            ValidacionNotas objNotas = utilLocal.ValidaConsulta(medidasPac.IdConsulta, "1", Int32.Parse(medidasPac.NroAtencion));
+                            ValidacionNotas objNotas = utilLocal.ValidaConsulta((medidasPac.IdConsulta), "1", Int32.Parse(medidasPac.NroAtencion));
                             NumeroNota = objNotas.IdNota;
 
                             if (NumeroNota == 0) // Insertar Nota Nueva en SAHI

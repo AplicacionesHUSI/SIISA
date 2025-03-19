@@ -94,7 +94,7 @@ namespace HUSI_SIISA.Controllers
                 return rptaServicio;
             }
             //end validation
-
+            //pendiente insumos 
             logSahico.Info("Ingreso de Insumos Recibido:Atencion:" + insumosRequest.Atencion + "  Esquema:" + insumosRequest.Esquema + "   idPaciente:" + insumosRequest.ID_Paciente + "   idConsulta:" + insumosRequest.ID_Consulta + "  Nro Ciclo:" + insumosRequest.Numero_Ciclo);// + " Items:" + insumosIng.Items_Insumos.ToArray().ToString() + "  Profesionales:" + insumosIng.Profesionales);
 #pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
             logSahico.Info("Nro de Insumos: " + insumosRequest.Items_Insumos.Count);
