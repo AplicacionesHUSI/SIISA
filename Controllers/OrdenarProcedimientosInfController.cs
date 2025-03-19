@@ -174,7 +174,8 @@ namespace HUSI_SIISA.Controllers
                                 return BadRequest(ordenarProcedimientosResponse);
                             }
 
-                        }ñ+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ñ+
+                        }
+
 #pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
 
                         dataCargar = dataCargar + "___________________FIN PROCEDIMIENTOS_____________________" + salto;
