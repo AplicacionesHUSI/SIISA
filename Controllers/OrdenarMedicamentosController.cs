@@ -131,7 +131,13 @@ namespace HUSI_SIISA.Controllers
                 //{
                 //    medicoOrdena = Int16.Parse(rptaMedicos.resultado);
                 //}
-
+                // Obtener tipo de consulta
+                string tipoConsulta = ordenarMedicamentosRequest.IdSede switch
+                {
+                    1 => "5",
+                    68 => "4",
+                    _ => ""
+                };
                 DBConnection conn = new();
                 using (SqlConnection conexion = new(conn.getCs()))
                 {
@@ -175,8 +181,14 @@ namespace HUSI_SIISA.Controllers
 
                         SqlTransaction txTransaccion01 = conexion.BeginTransaction("TX1");
                         ValidacionNotas objNotas = new();
-                        objNotas = utilLocal.ValidaConsulta(ordenarMedicamentosRequest.IdConsulta, "2", ordenarMedicamentosRequest.Atencion);
+                        objNotas = utilLocal.ValidaConsulta(ordenarMedicamentosRequest.IdConsulta, tipoConsulta, ordenarMedicamentosRequest.Atencion);
                         NumeroNota = objNotas.IdNota;
+                        short tipoNota = ordenarMedicamentosRequest.IdSede switch
+                        {
+                            1 => 811,
+                            68 => 822,//medicamentos
+                            _ => (short)0
+                        };
                         if (NumeroNota > 0 && objNotas.IdNotaMed == 0)
                         {
 
@@ -189,8 +201,8 @@ namespace HUSI_SIISA.Controllers
                             cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = 30;
                             cmdNotasAte.Parameters.Add("@desNota", SqlDbType.Text).Value = dataCargar;
                             cmdNotasAte.Parameters.Add("@usuario", SqlDbType.SmallInt).Value = medicoOrdena;
-                            cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = 811;
-                            logSahico.Info("********************* Valor de tipoNota:" + 811 + "  Nota:" + NumeroNota + "   Atencion:" + ordenarMedicamentosRequest.Atencion + "****************************");
+                            cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = tipoNota;
+                            logSahico.Info("********************* Valor de tipoNota:" + tipoNota + "  Nota:" + NumeroNota + "   Atencion:" + ordenarMedicamentosRequest.Atencion + "****************************");
                             if (cmdNotasAte.ExecuteNonQuery() > 0)
                             {
                                 logSahico.Info("Se inserta informacion en hceNotasAte O.K");
@@ -198,7 +210,7 @@ namespace HUSI_SIISA.Controllers
                                 actHistoria2 = actHistoria2 + "VALUES (@atencion,@esquema,@esquemaAte,@ubicacion, @medico,@traslado,@fechaEsquema,@indicadorHabilitado, @indicadorActivado,@fechaCerrado, @EstadoApDx, @orden,@rCritico)";
                                 SqlCommand cmdEsquemasAte = new SqlCommand(actHistoria2, conexion, txTransaccion01);
                                 cmdEsquemasAte.Parameters.Add("@atencion", SqlDbType.Int).Value = ordenarMedicamentosRequest.Atencion;
-                                cmdEsquemasAte.Parameters.Add("@esquema", SqlDbType.Int).Value = 811;
+                                cmdEsquemasAte.Parameters.Add("@esquema", SqlDbType.Int).Value = tipoNota;
                                 cmdEsquemasAte.Parameters.Add("@esquemaAte", SqlDbType.Int).Value = NumeroNota;
                                 cmdEsquemasAte.Parameters.Add("@ubicacion", SqlDbType.SmallInt).Value = 30;
                                 cmdEsquemasAte.Parameters.Add("@medico", SqlDbType.SmallInt).Value = medicoOrdena;
@@ -264,8 +276,8 @@ namespace HUSI_SIISA.Controllers
                             cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = 30;
                             cmdNotasAte.Parameters.Add("@desNota", SqlDbType.VarChar).Value = dataCargar;
                             cmdNotasAte.Parameters.Add("@usuario", SqlDbType.SmallInt).Value = 0;  // Toca implementar el medico o profesional de SAHICO
-                            cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = 811;
-                            logSahico.Info("********************* Valor de tipoNota:" + 811 + "  Nota:" + NumeroNota + "   Atencion:" + ordenarMedicamentosRequest.Atencion + "****************************");
+                            cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = tipoNota;
+                            logSahico.Info("********************* Valor de tipoNota:" + tipoNota + "  Nota:" + NumeroNota + "   Atencion:" + ordenarMedicamentosRequest.Atencion + "****************************");
                             if (cmdNotasAte.ExecuteNonQuery() > 0)
                             {
                                 if (utilLocal.ActualizarSahicoRel(ordenarMedicamentosRequest.IdConsulta, objNotas.IdNota, NumeroNota, ordenarMedicamentosRequest.Atencion, ordenarMedicamentosRequest.Fecha, 2))

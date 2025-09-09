@@ -42,101 +42,107 @@ namespace HUSI_SIISA.Controllers
 
             try
             {
-                DBConnection conn = new DBConnection();
-                using (SqlConnection conexion = new SqlConnection(conn.getCs()))
+                using SqlConnection conexion = new SqlConnection(new DBConnection().getCs());
+                conexion.Open();
+
+                string query = GenerarConsultaSQL(atencionRequest);
+                using SqlCommand cmd = new(query, conexion);
+                cmd.Parameters.Add("@NumDocumento", SqlDbType.VarChar).Value = atencionRequest.NumDoc;
+                cmd.Parameters.Add("@tipoDoc", SqlDbType.SmallInt).Value = atencionRequest.TipoDoc;
+                cmd.Parameters.Add("@idTipoAten", SqlDbType.SmallInt).Value = atencionRequest.Servicio;
+
+                using SqlDataReader reader = cmd.ExecuteReader();
+                if (!reader.HasRows)
                 {
-                    conexion.Open();
-
-                    string strConsultar = string.Empty;
-                    if (atencionRequest.Servicio == 28)
+                    logSahico.Info("Paciente no encontrado en SAHI con numDoc :: " + atencionRequest.NumDoc);
+                    atencionResponse = new AtencionResponse
                     {
-                        // 28 or 59
-                        strConsultar = @"SELECT A.idCliente,A.idAtencion,A.IdAtencionTipo,B.NomAtencionTipo,D.IdAtenTipoBase,D.NomAtenTipoBase,FecIngreso,Cli.NomCliente,Cli.ApeCliente ,GT.IdTercero,GT.CodTercero,GT.NomTercero
-FROM admAtencion A
-INNER JOIN admCliente Cli ON A.IdCliente=Cli.IdCliente
-INNER JOIN admAtencionTipo B ON A.IdAtencionTipo=B.IdAtencionTipo
-INNER JOIN admAtenTipoBase D ON B.IdAtenTipoBase=d.IdAtenTipoBase
-INNER JOIN admAtencionContrato AC ON AC.IdAtencion=A.IdAtencion and AC.OrdPrioridad=1
-INNER JOIN conContrato CC ON CC.IdContrato=AC.IdContrato 
-INNER JOIN genTercero GT ON GT.IdTercero=CC.IdTercero 
-WHERE (cli.NumDocumento=@NumDocumento and cli.IdTipoDoc=@tipoDoc) AND (A.IdAtencionTipo=@idTipoAten or A.IdAtencionTipo=59  ) ORDER BY FecIngreso DESC";
-                    }
-                    else
-                    {
-                        strConsultar = @"SELECT A.idCliente,A.idAtencion,A.IdAtencionTipo,B.NomAtencionTipo,D.IdAtenTipoBase,D.NomAtenTipoBase,FecIngreso,Cli.NomCliente,Cli.ApeCliente ,GT.IdTercero,GT.CodTercero,GT.NomTercero
-FROM admAtencion A
-INNER JOIN admCliente Cli ON A.IdCliente=Cli.IdCliente
-INNER JOIN admAtencionTipo B ON A.IdAtencionTipo=B.IdAtencionTipo
-INNER JOIN admAtenTipoBase D ON B.IdAtenTipoBase=d.IdAtenTipoBase
-INNER JOIN admAtencionContrato AC ON AC.IdAtencion=A.IdAtencion and AC.OrdPrioridad=1
-INNER JOIN conContrato CC ON CC.IdContrato=AC.IdContrato 
-INNER JOIN genTercero GT ON GT.IdTercero=CC.IdTercero 
-WHERE (cli.NumDocumento=@NumDocumento and cli.IdTipoDoc=@tipoDoc)  AND A.IdAtencionTipo=@idTipoAten ORDER BY FecIngreso DESC";
-                    }
-
-                    SqlCommand cmdConsultar = new SqlCommand(strConsultar, conexion);
-                    cmdConsultar.Parameters.Add("@NumDocumento", SqlDbType.VarChar).Value = atencionRequest.NumDoc;
-                    cmdConsultar.Parameters.Add("@tipoDoc", SqlDbType.SmallInt).Value = atencionRequest.TipoDoc;
-                    cmdConsultar.Parameters.Add("@idTipoAten", SqlDbType.SmallInt).Value = atencionRequest.Servicio;
-                    SqlDataReader rdConsultar = cmdConsultar.ExecuteReader();
-                    if (rdConsultar.HasRows)
-                    {
-                        List<AtencionResponse> AtenRes = new List<AtencionResponse>();
-                        while (rdConsultar.Read())
-                    {
-                        atencionResponse.IdCliente =  rdConsultar.GetInt32(0);
-                        atencionResponse.NroAtencion = rdConsultar.GetInt32(1);
-                        atencionResponse.TipoAtencion = rdConsultar.GetInt16(2);
-                        atencionResponse.NombreTipoAtn = rdConsultar.IsDBNull(3) ? "" : rdConsultar.GetString(3);
-                        atencionResponse.TipoBaseAtencion = rdConsultar.GetInt16(4);
-                        atencionResponse.NomAtnBase = rdConsultar.IsDBNull(5) ? "" : rdConsultar.GetString(5);
-                        atencionResponse.FechaAtencion = rdConsultar.GetDateTime(6);
-                        atencionResponse.NombrePaciente = rdConsultar.IsDBNull(7) ? "" : rdConsultar.GetString(7);
-                        atencionResponse.ApellidosPaciente = rdConsultar.IsDBNull(8) ? "" : rdConsultar.GetString(8);
-                        atencionResponse.IdTercero = rdConsultar.GetInt32(9);
-                        atencionResponse.CodTercero =rdConsultar.IsDBNull(10)?"":rdConsultar.GetString(10);
-                        atencionResponse.NomTercero = rdConsultar.IsDBNull(11) ? "" : rdConsultar.GetString(11);
-                        logSahico.Info("Paciente encontrado. Doc :: " + atencionRequest.NumDoc + " , atencion :: " + atencionResponse.NroAtencion);
-                        AtenRes.Add(atencionResponse);
-
-                    }
-                    return Ok(AtenRes);
-                    }
-                    else
-                    {
-                        logSahico.Info("Paciente no encontrado en SAHI con numDoc :: " + atencionRequest.NumDoc);
-                        atencionResponse.IdCliente = 0;
-                        atencionResponse.NroAtencion = 0;
-                        atencionResponse.TipoAtencion = 0;
-                        atencionResponse.NombreTipoAtn = "";
-                        atencionResponse.TipoBaseAtencion = 0;
-                        atencionResponse.NomAtnBase = "";
-                        atencionResponse.FechaAtencion = DateTime.Now;
-                        atencionResponse.NombrePaciente = "Paciente No Existe";
-                        atencionResponse.ApellidosPaciente = "Paciente No Existe";
-
-                        return NotFound(atencionResponse);
-                    }
+                        IdCliente = 0,
+                        NroAtencion = 0,
+                        TipoAtencion = 0,
+                        NombreTipoAtn = "",
+                        TipoBaseAtencion = 0,
+                        NomAtnBase = "",
+                        FechaAtencion = DateTime.Now,
+                        NombrePaciente = "Paciente No Existe",
+                        ApellidosPaciente = "Paciente No Existe"
+                    };
+                    return NotFound(atencionResponse);
                 }
+
+                List<AtencionResponse> respuestas = new();
+                while (reader.Read())
+                {
+                    var resp = new AtencionResponse
+                    {
+                        IdCliente = reader.GetInt32(0),
+                        NroAtencion = reader.GetInt32(1),
+                        TipoAtencion = reader.GetInt16(2),
+                        NombreTipoAtn = reader.IsDBNull(3) ? "" : reader.GetString(3),
+                        TipoBaseAtencion = reader.GetInt16(4),
+                        NomAtnBase = reader.IsDBNull(5) ? "" : reader.GetString(5),
+                        FechaAtencion = reader.GetDateTime(6),
+                        NombrePaciente = reader.IsDBNull(7) ? "" : reader.GetString(7),
+                        ApellidosPaciente = reader.IsDBNull(8) ? "" : reader.GetString(8),
+                        IdTercero = reader.GetInt32(9),
+                        CodTercero = reader.IsDBNull(10) ? "" : reader.GetString(10),
+                        NomTercero = reader.IsDBNull(11) ? "" : reader.GetString(11),
+                    };
+
+                    logSahico.Info($"Paciente encontrado. Doc :: {atencionRequest.NumDoc}, atencion :: {resp.NroAtencion}");
+                    respuestas.Add(resp);
+                }
+
+                return Ok(respuestas);
             }
             catch (SqlException ex)
             {
-                ErrorResponse errorResponse = new();
                 logSahico.Error("Error en Base de Datos :: " + ex.Message);
-                errorResponse.Codigo = 500;
-                errorResponse.Mensaje = "Error con la operacion en la base de datos, comuníquese con el administrador.";
-                return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+                return StatusCode(500, new ErrorResponse
+                {
+                    Codigo = 500,
+                    Mensaje = "Error con la operación en la base de datos, comuníquese con el administrador."
+                });
             }
-            catch (Exception ex3)
+            catch (Exception ex)
             {
-                ErrorResponse errorResponse = new();
-                logSahico.Error("Error en Base de Datos :: " + ex3.Message);
-                logSahico.Info("Se ha presentado una Excepcion:" + ex3.InnerException);
-                logSahico.Info("Se ha presentado una Excepcion:" + ex3.StackTrace);
-                errorResponse.Codigo = 500;
-                errorResponse.Mensaje = "Se ha presentado una Excepcion General No controlada, comuníquese con el administrador.";
-                return StatusCode(StatusCodes.Status500InternalServerError, errorResponse);
+                logSahico.Error("Excepción general :: " + ex.Message);
+                logSahico.Info("Detalle excepción: " + ex.StackTrace);
+                return StatusCode(500, new ErrorResponse
+                {
+                    Codigo = 500,
+                    Mensaje = "Se ha presentado una excepción general no controlada, comuníquese con el administrador."
+                });
             }
         }
+
+        private string GenerarConsultaSQL(AtencionRequest req)
+        {
+            string baseQuery = @"
+                SELECT A.idCliente,A.idAtencion,A.IdAtencionTipo,B.NomAtencionTipo,
+                       D.IdAtenTipoBase,D.NomAtenTipoBase,FecIngreso,
+                       Cli.NomCliente,Cli.ApeCliente,GT.IdTercero,
+                       GT.CodTercero,GT.NomTercero
+                FROM admAtencion A
+                INNER JOIN admCliente Cli ON A.IdCliente = Cli.IdCliente
+                INNER JOIN admAtencionTipo B ON A.IdAtencionTipo = B.IdAtencionTipo
+                INNER JOIN admAtenTipoBase D ON B.IdAtenTipoBase = D.IdAtenTipoBase
+                INNER JOIN admAtencionContrato AC ON AC.IdAtencion = A.IdAtencion AND AC.OrdPrioridad = 1
+                INNER JOIN conContrato CC ON CC.IdContrato = AC.IdContrato
+                INNER JOIN genTercero GT ON GT.IdTercero = CC.IdTercero
+                WHERE cli.NumDocumento = @NumDocumento AND cli.IdTipoDoc = @tipoDoc AND A.IndActivado = 1 AND A.IndHabilitado = 1";
+
+            string filtro = "";
+
+            if (req.IdSede == 1 && req.Servicio == 28)
+                filtro = " AND (A.IdAtencionTipo = @idTipoAten OR A.IdAtencionTipo = 59)";
+            else if (req.IdSede == 68 && req.Servicio == 80)
+                filtro = " AND A.IdAtencionTipo = 80";
+            else
+                filtro = " AND A.IdAtencionTipo = @idTipoAten";
+
+            return baseQuery + filtro + " ORDER BY FecIngreso DESC";
+        }
+
     }
 }

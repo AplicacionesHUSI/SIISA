@@ -40,7 +40,7 @@ namespace HUSI_SIISA.Controllers
         /// </remarks>
         [HttpPost]
         [Route("InsertarHC")]
-        public async Task<ActionResult> InsertarHCAsync([FromBody] HistoriaClinicaRequest historiaRequest)
+        private async Task<ActionResult> InsertarHCAsync([FromBody] HistoriaClinicaRequest historiaRequest)
         {
             HistoriaClinicaResponse historiaResponse = new();
 

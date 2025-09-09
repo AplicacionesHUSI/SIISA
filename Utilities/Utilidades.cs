@@ -93,16 +93,19 @@ namespace HUSI_SIISA.Utilities
                 switch (tipo)
                 {
                     case "1":
-                        qryValida = "SELECT nroConsultaSahico,idNota,procedimientos,idNotaProc,medicamentos,idNotaMed FROM  hceIntegraSahicoRel  WHERE idAtencion=@idAtencion AND idnota=@nroConsulta";
+                        qryValida = "SELECT nroConsultaSahico,idNota,procedimientos,idNotaProc,medicamentos,idNotaMed FROM  hceIntegraSahicoRel  WHERE idAtencion=@idAtencion AND nroConsultaSahico=@nroConsulta";
                         break;
                     case "2":
-                        qryValida = "SELECT nroConsultaSahico,idNota,procedimientos,idNotaProc,medicamentos,idNotaMed FROM  hceIntegraSahicoRel WHERE idAtencion=@idAtencion AND  idnota=@nroConsulta";
+                        qryValida = "SELECT nroConsultaSahico,idNota,procedimientos,idNotaProc,medicamentos,idNotaMed FROM  hceIntegraSahicoRel WHERE idAtencion=@idAtencion AND  nroConsultaSahico=@nroConsulta";
                         break;
                     case "3":
-                        qryValida = "SELECT nroConsultaSahico,idNota,procedimientos,idNotaProc,medicamentos,idNotaMed FROM  hceIntegraSahicoRel WHERE idAtencion=@idAtencion AND idnota=@nroConsulta";
+                        qryValida = "SELECT nroConsultaSahico,idNota,procedimientos,idNotaProc,medicamentos,idNotaMed FROM  hceIntegraSahicoRel WHERE idAtencion=@idAtencion AND nroConsultaSahico=@nroConsulta";
                         break;
                     case "4":
-                        qryValida = "SELECT nroConsultaSahico,idNota,procedimientos,idNotaProc,medicamentos,idNotaMed FROM  hceIntegraSahicoRel WHERE idAtencion=@idAtencion AND idnota=@nroConsulta and idTipoNota=820";
+                        qryValida = "SELECT nroConsultaSahico,idNota,procedimientos,idNotaProc,medicamentos,idNotaMed FROM  hceIntegraSahicoRel WHERE idAtencion=@idAtencion AND nroConsultaSahico=@nroConsulta and idTipoNota=821";
+                        break;
+                    case "5":
+                        qryValida = "SELECT nroConsultaSahico,idNota,procedimientos,idNotaProc,medicamentos,idNotaMed FROM  hceIntegraSahicoRel WHERE idAtencion=@idAtencion AND nroConsultaSahico=@nroConsulta and idTipoNota=807";
                         break;
                 }
                 SqlCommand cmdValida = new SqlCommand(qryValida, conexion);
@@ -112,7 +115,7 @@ namespace HUSI_SIISA.Utilities
                 if (rdvalida.HasRows)
                 {
                     rdvalida.Read();
-                    if (rdvalida.GetInt32(1) == nroConsulta)
+                    if (rdvalida.GetInt32(0) == nroConsulta)
                     {
                         rpta.NroConsultaSahico = rdvalida.GetInt32(0);
                         rpta.IdNota = rdvalida.GetInt32(1);

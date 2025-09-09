@@ -20,12 +20,17 @@ namespace HUSI_SIISA.Models.Request
         [JsonProperty("idconsulta")]
         public Int32 IdConsulta {get; set;}
 
+
+        [Required]
+        [JsonProperty("idSede")]
+        public Int16 IdSede { get; set; }
+
         /// <summary>
         /// ID del Paciente en SAHI. Se puede obtener del servicio Atencion
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>Integer</tipo_dato>
-       
+
         [JsonProperty("idpaciente")]
         public Int32 IdPaciente {get; set;}
 

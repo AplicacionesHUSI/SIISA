@@ -19,6 +19,10 @@ namespace HUSI_SIISA.Models.Request
         [JsonProperty("idConsulta")]
         public string? IdConsulta { get; set; }
 
+        [Required]
+        [JsonProperty("idSede")]
+        public Int16 IdSede { get; set; }
+
         /// <summary>
         /// 
         /// </summary>

@@ -40,7 +40,7 @@ namespace HUSI_SIISA.Controllers
         /// </remarks>
         [HttpPost]
         [Route("actualizarMedicamentos")]
-        public ActionResult ActualizarMedicamentos([FromBody] OrdenarMedicamentosRequest ordenarMedicamentosRequest)
+        private ActionResult ActualizarMedicamentos([FromBody] OrdenarMedicamentosRequest ordenarMedicamentosRequest)
         {
             OrdenarMedicamentosResponse ordenarMedicamentosResponse = new();
 
@@ -97,7 +97,7 @@ namespace HUSI_SIISA.Controllers
         /// </remarks>
         [HttpPost]
         [Route("ordenarMedicamentos")]
-        public ActionResult OrdenarMedicamentos([FromBody] OrdenarMedicamentosRequest ordenarMedicamentosRequest)
+        private ActionResult OrdenarMedicamentos([FromBody] OrdenarMedicamentosRequest ordenarMedicamentosRequest)
         {
             OrdenarMedicamentosResponse ordenarMedicamentosResponse = new();
 
@@ -354,7 +354,7 @@ namespace HUSI_SIISA.Controllers
         /// </remarks>
         [HttpPost]
         [Route("ordenarMedicamentosHosp")]
-        public ActionResult OrdenarMedicamentosHosp([FromBody] OrdenarMedicamentosRequest ordenarMedicamentosRequest)
+        private ActionResult OrdenarMedicamentosHosp([FromBody] OrdenarMedicamentosRequest ordenarMedicamentosRequest)
         {
             OrdenarMedicamentosResponse ordenarMedicamentosResponse = new();
 

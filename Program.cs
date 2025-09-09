@@ -7,6 +7,9 @@ using System;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+// Registrar IHttpClientFactory
+
+builder.Services.AddHttpClient();
 
 // Add services to the container.
 builder.Services.AddControllers();

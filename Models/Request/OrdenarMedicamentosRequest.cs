@@ -18,6 +18,10 @@ namespace HUSI_SIISA.Models.Request
         [JsonProperty("idConsulta")]
         public Int32 IdConsulta { get; set; }
 
+        [Required]
+        [JsonProperty("idSede")]
+        public Int16 IdSede { get; set; }
+
         /// <summary>
         /// Atencion: Corresponde al numero de atencion del cliente en SAHI.
         /// </summary>

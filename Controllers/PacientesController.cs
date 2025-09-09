@@ -39,7 +39,7 @@ namespace HUSI_SIISA.Controllers
         /// </remarks>
         [HttpPost]
         [Route("ConsultaPaciente")]
-        public ActionResult ConsultaPaciente(string documento, byte tipo)
+        public ActionResult ConsultaPaciente(PacienteRequest ppr)
         {
 
 			PacientesRequest pr = new PacientesRequest();
@@ -63,7 +63,7 @@ namespace HUSI_SIISA.Controllers
 									                                    FROM citAutoEnvioMensajes hdi
 									                                    WHERE hdi.idCliente = hd.idCliente AND hdi.idTipo = 0) AND hd.idTipo = 0
 									                                    ) hdE ON hdE.idCliente = admCliente.idCliente
-                                    WHERE admCliente.NumDocumento='" + documento + "' AND admCliente.IdTipoDoc=" + tipo;
+                                    WHERE admCliente.NumDocumento='" +ppr.Documento+ "' AND admCliente.IdTipoDoc=" + ppr.Tipo;
 					SqlCommand ComandoSql = new SqlCommand(query0, conexion);
 					SqlDataReader Cliente = ComandoSql.ExecuteReader();
 					if (Cliente.HasRows)
@@ -110,12 +110,16 @@ namespace HUSI_SIISA.Controllers
 						if (Cliente.IsDBNull(38)) { pr.autoEnvMsjEmail = ""; } else { pr.autoEnvMsjEmail = Cliente.GetString(38); }
 						if (Cliente.IsDBNull(39)) { pr.EpsAseg = "0"; } else { pr.EpsAseg = Cliente.GetInt32(39).ToString(); }
 						if (Cliente.IsDBNull(40)) { PcteEsp = "0"; } else { if (Cliente.GetBoolean(40)) { PcteEsp = "1"; } else { PcteEsp = "0"; } }
-						pr.Estado = "01 | Proceso Exitoso";
+                        /*Alertas ale = new Alertas();
+						ale.Estado = true;
+						ale.Texto = "Prueba de Alerta Paciente";
+						pr.Alerta = ale;*/
+                        pr.Estado = "01 | Proceso Exitoso";
 						return Ok(pr);
 					}
 					else
 					{
-						pr.Estado = "03 |Paciente con Id=Documento:" + documento + " No Existe";
+						pr.Estado = "03 |Paciente con Id=Documento:" + ppr.Documento + " No Existe";
 						return NotFound(pr);
 					}
 				}

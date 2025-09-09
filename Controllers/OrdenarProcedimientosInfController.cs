@@ -38,7 +38,7 @@ namespace HUSI_SIISA.Controllers
         /// </remarks>
         [HttpPost]
         [Route("actualizarProcedimientos")]
-        public ActionResult ActualizarProcedimientos([FromBody] OrdenarProcedimientosRequest ordenarProcedimientosRequest)
+        private ActionResult ActualizarProcedimientos([FromBody] OrdenarProcedimientosRequest ordenarProcedimientosRequest)
         {
             OrdenarProcedimientosResponse ordenarProcedimientosResponse = new();
 
@@ -91,7 +91,7 @@ namespace HUSI_SIISA.Controllers
         /// </remarks>
         [HttpPost]
         [Route("ordenarProcedimientos")]
-        public ActionResult OrdenarProcedimientos([FromBody] OrdenarProcedimientosRequest ordenarProcedimientosRequest)
+        private ActionResult OrdenarProcedimientos([FromBody] OrdenarProcedimientosRequest ordenarProcedimientosRequest)
         {
             OrdenarProcedimientosResponse ordenarProcedimientosResponse = new();
             logSahico.Info("Mensaje Recibido de Orden de Procedimientos:" + ordenarProcedimientosRequest.ToString());
