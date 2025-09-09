@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using NLog;
 using System.Data;
+using System.Globalization;
 using static HUSI_SIISA.Utilities.Utilidades;
 
 namespace HUSI_SIISA.Controllers
@@ -104,7 +105,9 @@ namespace HUSI_SIISA.Controllers
                         rdConsultaAtn.Close();
                         dataCargar = "*********** INFORMACION INGRESADA POR SAHICO ************" + salto;
                         //dataCargar = dataCargar + "Fecha Consulta:" + historiaInsertar.fechaConsulta + salto;
-                        dataCargar = dataCargar + "Fecha Consulta:" + DateTime.Now.ToString() + salto;
+                        dataCargar = dataCargar + "Fecha Consulta:" + DateTime.ParseExact(historiaRequest.FechaConsulta.Substring(0, 19),
+                                          "yyyy-MM-dd'T'HH:mm:ss",
+                                          CultureInfo.InvariantCulture).ToString() + salto;
                         dataCargar = dataCargar + "Numero Consulta:" + historiaRequest.IdConsulta + salto;
                         dataCargar = dataCargar + "Numero de Atencion:" + historiaRequest.IdAtencion;
                         dataCargar = dataCargar + "  ID del Paciente:" + historiaRequest.IdPaciente + salto;
@@ -149,14 +152,17 @@ namespace HUSI_SIISA.Controllers
                         //NumeroNota = utilLocal.validaConsulta(Int32.Parse(historiaInsertar.idconsulta), "1", Int32.Parse(historiaInsertar.idAtencion));
                         if (NumeroNota == 0)
                         {
-                            NumeroNota = utilLocal.ConsecutivoSistabla("hceNotasAte");
 
+                            NumeroNota = utilLocal.ConsecutivoSistabla("hceNotasAte");
                             string actHistoria1 = @"INSERT INTO hceNotasAte (IdNota, IdAtencion, FecNota, IdUbicacion, DesNota, IdUsuarioR, IdTipoNota)	VALUES (@nota,@atencion,@fechaNota,@ubicacion,@desNota,@usuario,@tipoNota)";
                             SqlCommand cmdNotasAte = new SqlCommand(actHistoria1, conexion, txTransaccion01);
                             cmdNotasAte.Parameters.Add("@nota", SqlDbType.Int).Value = NumeroNota;
                             cmdNotasAte.Parameters.Add("@atencion", SqlDbType.Int).Value = historiaRequest.IdAtencion;
-                            //cmdNotasAte.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = DateTime.Parse(historiaInsertar.fechaConsulta);
-                            cmdNotasAte.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = DateTime.Now;
+                            cmdNotasAte.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = DateTime.ParseExact(historiaRequest.FechaConsulta.Substring(0, 19),
+                                          "yyyy-MM-dd'T'HH:mm:ss",
+                                          CultureInfo.InvariantCulture);
+
+                            //cmdNotasAte.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = DateTime.Now;
                             cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = 30;
                             cmdNotasAte.Parameters.Add("@desNota", SqlDbType.Text).Value = dataCargar;
                             cmdNotasAte.Parameters.Add("@usuario", SqlDbType.SmallInt).Value = Profesional;
@@ -174,8 +180,10 @@ namespace HUSI_SIISA.Controllers
                                 cmdEsquemasAte.Parameters.Add("@ubicacion", SqlDbType.SmallInt).Value = 30;
                                 cmdEsquemasAte.Parameters.Add("@medico", SqlDbType.SmallInt).Value = Profesional;
                                 cmdEsquemasAte.Parameters.Add("@traslado", SqlDbType.Int).Value = 1;
-                                //cmdEsquemasAte.Parameters.Add("@fechaEsquema", SqlDbType.DateTime).Value = DateTime.Parse(historiaInsertar.fechaConsulta);
-                                cmdEsquemasAte.Parameters.Add("@fechaEsquema", SqlDbType.DateTime).Value = DateTime.Now;
+                                cmdEsquemasAte.Parameters.Add("@fechaEsquema", SqlDbType.DateTime).Value = DateTime.ParseExact(historiaRequest.FechaConsulta.Substring(0, 19),
+                                          "yyyy-MM-dd'T'HH:mm:ss",
+                                          CultureInfo.InvariantCulture);
+                                //cmdEsquemasAte.Parameters.Add("@fechaEsquema", SqlDbType.DateTime).Value = DateTime.Now;
                                 cmdEsquemasAte.Parameters.Add("@indicadorHabilitado", SqlDbType.Bit).Value = 1;
                                 cmdEsquemasAte.Parameters.Add("@indicadorActivado", SqlDbType.Bit).Value = 0;
                                 cmdEsquemasAte.Parameters.Add("@fechaCerrado", SqlDbType.DateTime).Value = DateTime.Now;
@@ -256,8 +264,10 @@ namespace HUSI_SIISA.Controllers
                             SqlCommand cmdNotasAte = new(actHistoria1, conexion, txTransaccion01);
                             cmdNotasAte.Parameters.Add("@nota", SqlDbType.Int).Value = NumeroNota;
                             cmdNotasAte.Parameters.Add("@atencion", SqlDbType.Int).Value = historiaRequest.IdAtencion;
-                            //cmdNotasAte.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = DateTime.Parse(historiaInsertar.fechaConsulta);
-                            cmdNotasAte.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = DateTime.Now;
+                            cmdNotasAte.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = DateTime.ParseExact(historiaRequest.FechaConsulta.Substring(0,19),
+                                          "yyyy-MM-dd'T'HH:mm:ss",
+                                          CultureInfo.InvariantCulture);
+                            //cmdNotasAte.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = DateTime.Now;
                             cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = 30;
                             cmdNotasAte.Parameters.Add("@desNota", SqlDbType.VarChar).Value = dataCargar;
                             cmdNotasAte.Parameters.Add("@usuario", SqlDbType.SmallInt).Value = Profesional;

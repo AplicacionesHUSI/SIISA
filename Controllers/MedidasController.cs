@@ -81,7 +81,7 @@ namespace HUSI_SIISA.Controllers
 
         [HttpPost]
         [Route("InsertarMedidasPac")]
-        public ActionResult InsertarMedidasPac([FromBody] MedidasRequest medidasPac)
+        public async Task<ActionResult> InsertarMedidasPacAsync([FromBody] MedidasRequest medidasPac)
         {
             StringBuilder serializado = new StringBuilder();
             XmlSerializer SerializadorMedidas = new XmlSerializer(typeof(MedidasRequest));
@@ -110,16 +110,16 @@ namespace HUSI_SIISA.Controllers
                 string salto = Environment.NewLine;
                 Int32 NumeroNota = 0;
 
-                //clientePacientesHusi.husiCliente pacienteW = new clientePacientesHusi.husiCliente();
+               // datosPaciente.husiCliente pacienteW = new datosPaciente.husiCliente();
                 try
                 {
                     if (medidasPac.IdConsulta > 0 && medidasPac.IdPaciente.Length > 0)
                     {
 
                         logSahico.Info("Consumo de Servicio de Medidas: Nro Consulta:" + medidasPac.NroConsulta + "  medidasPac.IdPaciente:" + medidasPac.IdPaciente);
-                        //clientePacientesHusi.IhusiClienteWSClient paciente = new clientePacientesHusi.IhusiClienteWSClient();
-                        //pacienteW = paciente.Consulta_V3(medidasPac.IdPaciente);
-                        logSahico.Info("Datos Paciente: Nro Doc:" + "1111111"/*pacienteW.NumDocumento*/ + "   Tipo Doc:" + "CCPrueba"/*pacienteW.IdTipoDoc*/);
+                 //       datosPaciente.IhusiClienteWSClient paciente = new datosPaciente.IhusiClienteWSClient();
+                   //     pacienteW =await  paciente.Consulta_V3Async(medidasPac.IdPaciente);
+                     //   logSahico.Info("Datos Paciente: Nro Doc:" + pacienteW.NumDocumento+ "   Tipo Doc:" + pacienteW.IdTipoDoc);
                         //clienteWSatenciones.IatencionesClient atencionesCli = new clienteWSatenciones.IatencionesClient();
                         //clienteWSatenciones.Atencion atencionPaciente = atencionesCli.ConsAtenXDoc(pacienteW.NumDocumento, pacienteW.IdTipoDoc);
                         logSahico.Info("Numero de Atencion del Paciente:" + medidasPac.NroAtencion);
@@ -127,15 +127,15 @@ namespace HUSI_SIISA.Controllers
                         dataCargar = "________________________MEDIDAS___________________________" + salto;
                         dataCargar = dataCargar + "Fecha:" + DateTime.Now;
                         dataCargar = dataCargar + " Numero de Atencion:" + medidasPac.NroAtencion + salto + "                         Numero Consulta:" + medidasPac.IdConsulta + salto;
-                        dataCargar = dataCargar + "No Documento:" + "111111"/*pacienteW.NumDocumento*/ + "  Fecha de Nacimiento " + "21/21/2121"/*pacienteW.FecNacimiento.ToString("dd/MM/yyyy")*/ + salto;
-                        dataCargar = dataCargar + "Paciente:" + "Nombreprueba"/*pacienteW.NomCliente*/ + " " + "apellidoprueba"/*pacienteW.ApeCliente*/ + "         Tel:" + "31233"/*pacienteW.TelCasa*/ + salto;
+                       // dataCargar = dataCargar + "No Documento:" + pacienteW.NumDocumento + "  Fecha de Nacimiento " + pacienteW.FecNacimiento.ToString("dd/MM/yyyy") + salto;
+                        //dataCargar = dataCargar + "Paciente:" + pacienteW.NomCliente + " " + pacienteW.ApeCliente+ "         Tel:" + pacienteW.TelCasa + salto;
                         dataCargar = dataCargar + " " + salto;
                         dataCargar = dataCargar + "Peso:" + medidasPac.Peso + salto;
                         dataCargar = dataCargar + "Talla:" + medidasPac.Talla + salto;
                         dataCargar = dataCargar + "Indice Superficie Corporal:" + medidasPac.Indice_Super_Corporal + salto;
                         dataCargar = dataCargar + "Indice Masa Corporal:" + medidasPac.Ind_Masa_Corporal + salto;
                         dataCargar = dataCargar + "Frecuencia Cardiaca:" + medidasPac.Frecuencia_Cardiaca + salto;
-                        dataCargar = dataCargar + "Temperatura:" + medidasPac.Temperatura + salto;
+                        dataCargar = dataCargar + "Temperatura:" + medidasPac.Temperatura.ToString() + salto;
                         dataCargar = dataCargar + "Presion Arterial Sistolica:" + medidasPac.Presion_Art_Sist + salto;
                         dataCargar = dataCargar + "Presion Arterial Diastolica:" + medidasPac.Presion_Art_Dias + salto;
                         dataCargar = dataCargar + "Frecuencia Respiratora:" + medidasPac.Frec_Respiratoria + salto;

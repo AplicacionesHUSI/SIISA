@@ -164,7 +164,7 @@ namespace MedicosWs
         {
             if ((endpointConfiguration == EndpointConfiguration.BasicHttpBinding_ImedicosWS))
             {
-                return new System.ServiceModel.EndpointAddress("http://winpvtiws01:14100/Servicios/medicosWS.svc");
+                return new System.ServiceModel.EndpointAddress("http://winpvtiws04:2710/Servicios/medicosWS.svc");
             }
             throw new System.InvalidOperationException(string.Format("No se pudo encontrar un punto de conexión con el nombre \"{0}\".", endpointConfiguration));
         }

@@ -75,7 +75,7 @@ namespace HUSI_SIISA.Models.Request
         /// <tipo_dato>Smallint</tipo_dato>
         [Required]
         [JsonProperty("temperatura")]
-        public Int16 Temperatura {get; set;}
+        public float Temperatura {get; set;}
 
         /// <summary>
         /// Presion Arteral Sistolica
