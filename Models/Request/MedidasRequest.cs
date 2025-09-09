@@ -23,6 +23,11 @@ namespace HUSI_SIISA.Models.Request
         [JsonProperty("idconsulta")]
         public Int32 IdConsulta {get; set;}
 
+
+        [Required]
+        [JsonProperty("idSede")]
+        public Int16 IdSede { get; set; }
+
         /// <summary>
         /// Peso del paciente en Kilogramos
         /// </summary>

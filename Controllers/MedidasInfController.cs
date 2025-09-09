@@ -19,7 +19,7 @@ namespace HUSI_SIISA.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
-    public class MedidasController : ControllerBase
+    public class MedidasInfController : ControllerBase
     {
         private static Logger logSahico = LogManager.GetCurrentClassLogger();
 
@@ -42,7 +42,7 @@ namespace HUSI_SIISA.Controllers
         /// </remarks>
         [HttpPost]
         [Route("ActualizarMedidasPac")]
-        public MedidasResponse ActualizarMedidasPac([FromBody] MedidasRequest medidasPcte)
+        private MedidasResponse ActualizarMedidasPac([FromBody] MedidasRequest medidasPcte)
         {
             MedidasResponse medidasResponse = new();
 #pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
@@ -81,7 +81,7 @@ namespace HUSI_SIISA.Controllers
 
         [HttpPost]
         [Route("InsertarMedidasPac")]
-        public async Task<ActionResult> InsertarMedidasPacAsync([FromBody] MedidasRequest medidasPac)
+        private ActionResult InsertarMedidasPac([FromBody] MedidasRequest medidasPac)
         {
             StringBuilder serializado = new StringBuilder();
             XmlSerializer SerializadorMedidas = new XmlSerializer(typeof(MedidasRequest));
@@ -103,13 +103,6 @@ namespace HUSI_SIISA.Controllers
             }
             //end validation
 
-            short tipoNota = medidasPac.IdSede switch
-            {
-                1 => 807,
-                68 => 821,
-                _ => (short)0
-            };
-
             if (medidasPac.IdPaciente.Length > 0 && medidasPac.IdConsulta > 0)
             {
                 Utilidades utilLocal = new Utilidades();
@@ -117,16 +110,16 @@ namespace HUSI_SIISA.Controllers
                 string salto = Environment.NewLine;
                 Int32 NumeroNota = 0;
 
-               // datosPaciente.husiCliente pacienteW = new datosPaciente.husiCliente();
+                //clientePacientesHusi.husiCliente pacienteW = new clientePacientesHusi.husiCliente();
                 try
                 {
                     if (medidasPac.IdConsulta > 0 && medidasPac.IdPaciente.Length > 0)
                     {
 
                         logSahico.Info("Consumo de Servicio de Medidas: Nro Consulta:" + medidasPac.NroConsulta + "  medidasPac.IdPaciente:" + medidasPac.IdPaciente);
-                 //       datosPaciente.IhusiClienteWSClient paciente = new datosPaciente.IhusiClienteWSClient();
-                   //     pacienteW =await  paciente.Consulta_V3Async(medidasPac.IdPaciente);
-                     //   logSahico.Info("Datos Paciente: Nro Doc:" + pacienteW.NumDocumento+ "   Tipo Doc:" + pacienteW.IdTipoDoc);
+                        //clientePacientesHusi.IhusiClienteWSClient paciente = new clientePacientesHusi.IhusiClienteWSClient();
+                        //pacienteW = paciente.Consulta_V3(medidasPac.IdPaciente);
+                        //logSahico.Info("Datos Paciente: Nro Doc:"/*pacienteW.NumDocumento*/ + "   Tipo Doc:" + ""/*pacienteW.IdTipoDoc*/);
                         //clienteWSatenciones.IatencionesClient atencionesCli = new clienteWSatenciones.IatencionesClient();
                         //clienteWSatenciones.Atencion atencionPaciente = atencionesCli.ConsAtenXDoc(pacienteW.NumDocumento, pacienteW.IdTipoDoc);
                         logSahico.Info("Numero de Atencion del Paciente:" + medidasPac.NroAtencion);
@@ -134,15 +127,15 @@ namespace HUSI_SIISA.Controllers
                         dataCargar = "________________________MEDIDAS___________________________" + salto;
                         dataCargar = dataCargar + "Fecha:" + DateTime.Now;
                         dataCargar = dataCargar + " Numero de Atencion:" + medidasPac.NroAtencion + salto + "                         Numero Consulta:" + medidasPac.IdConsulta + salto;
-                       // dataCargar = dataCargar + "No Documento:" + pacienteW.NumDocumento + "  Fecha de Nacimiento " + pacienteW.FecNacimiento.ToString("dd/MM/yyyy") + salto;
-                        //dataCargar = dataCargar + "Paciente:" + pacienteW.NomCliente + " " + pacienteW.ApeCliente+ "         Tel:" + pacienteW.TelCasa + salto;
+                        //dataCargar = dataCargar + "" + ""/*pacienteW.NumDocumento*/ + "  Fecha de Nacimiento " + "21/21/2121"/*pacienteW.FecNacimiento.ToString("dd/MM/yyyy")*/ + salto;
+                        //dataCargar = dataCargar + "Paciente:" + "Nombreprueba"/*pacienteW.NomCliente*/ + " " + "apellidoprueba"/*pacienteW.ApeCliente*/ + "         Tel:" + "31233"/*pacienteW.TelCasa*/ + salto;
                         dataCargar = dataCargar + " " + salto;
                         dataCargar = dataCargar + "Peso:" + medidasPac.Peso + salto;
                         dataCargar = dataCargar + "Talla:" + medidasPac.Talla + salto;
                         dataCargar = dataCargar + "Indice Superficie Corporal:" + medidasPac.Indice_Super_Corporal + salto;
                         dataCargar = dataCargar + "Indice Masa Corporal:" + medidasPac.Ind_Masa_Corporal + salto;
                         dataCargar = dataCargar + "Frecuencia Cardiaca:" + medidasPac.Frecuencia_Cardiaca + salto;
-                        dataCargar = dataCargar + "Temperatura:" + medidasPac.Temperatura.ToString() + salto;
+                        dataCargar = dataCargar + "Temperatura:" + medidasPac.Temperatura + salto;
                         dataCargar = dataCargar + "Presion Arterial Sistolica:" + medidasPac.Presion_Art_Sist + salto;
                         dataCargar = dataCargar + "Presion Arterial Diastolica:" + medidasPac.Presion_Art_Dias + salto;
                         dataCargar = dataCargar + "Frecuencia Respiratora:" + medidasPac.Frec_Respiratoria + salto;
@@ -164,16 +157,7 @@ namespace HUSI_SIISA.Controllers
                         using (SqlConnection conexion = new(conn.getCs()))
                         {
                             conexion.Open();
-                            ValidacionNotas objNotas = new ValidacionNotas();
-                            if (medidasPac.IdSede == 1)
-                            { 
-                                objNotas = utilLocal.ValidaConsulta((medidasPac.IdConsulta), "5", Int32.Parse(medidasPac.NroAtencion));
-                            }
-                            else
-                            {
-                                objNotas = utilLocal.ValidaConsulta((medidasPac.IdConsulta), "4", Int32.Parse(medidasPac.NroAtencion));
-                            }
-
+                            ValidacionNotas objNotas = utilLocal.ValidaConsulta((medidasPac.IdConsulta), "4", Int32.Parse(medidasPac.NroAtencion));
                             NumeroNota = objNotas.IdNota;
 
                             if (NumeroNota == 0) // Insertar Nota Nueva en SAHI
@@ -190,8 +174,8 @@ namespace HUSI_SIISA.Controllers
                                 ////////cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = 30;
                                 ////////cmdNotasAte.Parameters.Add("@desNota", SqlDbType.VarChar).Value = dataCargar;
                                 ////////cmdNotasAte.Parameters.Add("@usuario", SqlDbType.SmallInt).Value = 0;//????????????????????Aqui voy Toca implementar el Medico o Profesional de SAHICO
-                                ////////cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = tipoNota;
-                                ////////logSahico.Info("********************* Valor de tipoNota:" + tipoNota + "  Nota:" + NumeroNota + "   Atencion:" + datosAtencion.medidasPac.NroAtencion + "****************************");
+                                ////////cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = 807;
+                                ////////logSahico.Info("********************* Valor de tipoNota:" + 807 + "  Nota:" + NumeroNota + "   Atencion:" + datosAtencion.medidasPac.NroAtencion + "****************************");
                                 ////////if (cmdNotasAte.ExecuteNonQuery() > 0)
                                 ////////{
                                 ////////    logSahico.Info("Se inserta informacion en hceNotasAte O.K Medico que Ordena:" + 0);
@@ -199,7 +183,7 @@ namespace HUSI_SIISA.Controllers
                                 ////////    actHistoria2 = actHistoria2 + "VALUES (@atencion,@esquema,@esquemaAte,@ubicacion, @medico,@traslado,@fechaEsquema,@indicadorHabilitado, @indicadorActivado,@fechaCerrado, @EstadoApDx, @orden,@rCritico)";
                                 ////////    SqlCommand cmdEsquemasAte = new SqlCommand(actHistoria2, Conex00, txTransaccion01);
                                 ////////    cmdEsquemasAte.Parameters.Add("@atencion", SqlDbType.Int).Value = 0;// procedimientos.Atencion;
-                                ////////    cmdEsquemasAte.Parameters.Add("@esquema", SqlDbType.Int).Value = tipoNota;
+                                ////////    cmdEsquemasAte.Parameters.Add("@esquema", SqlDbType.Int).Value = 807;
                                 ////////    cmdEsquemasAte.Parameters.Add("@esquemaAte", SqlDbType.Int).Value = NumeroNota;
                                 ////////    cmdEsquemasAte.Parameters.Add("@ubicacion", SqlDbType.SmallInt).Value = 30;
                                 ////////    cmdEsquemasAte.Parameters.Add("@medico", SqlDbType.SmallInt).Value = 0;// medicoOrdena;
@@ -274,8 +258,8 @@ namespace HUSI_SIISA.Controllers
                                 cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = 30;
                                 cmdNotasAte.Parameters.Add("@desNota", SqlDbType.VarChar).Value = dataCargar;
                                 cmdNotasAte.Parameters.Add("@usuario", SqlDbType.SmallInt).Value = 0; // No se tiene el medico en Medidas toca implementarlo
-                                cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = tipoNota;
-                                logSahico.Info("********************* Valor de tipoNota:" + tipoNota + "  Nota:" + NumeroNota + "   Atencion:" + medidasPac.NroAtencion + "****************************");
+                                cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = 820;
+                                logSahico.Info("********************* Valor de tipoNota:" + 820 + "  Nota:" + NumeroNota + "   Atencion:" + medidasPac.NroAtencion + "****************************");
                                 if (cmdNotasAte.ExecuteNonQuery() > 0)
                                 {
 

@@ -17,6 +17,11 @@ namespace HUSI_SIISA.Models.Request
         [JsonProperty("idConsulta")]
         public Int32 IdConsulta { get; set; }
 
+
+        [Required]
+        [JsonProperty("idSede")]
+        public Int16 IdSede { get; set; }
+
         /// <summary>
         /// ID Paciente. identificacion del paciente. Corresponde al ID en SAHI
         /// </summary>
@@ -99,8 +104,7 @@ namespace HUSI_SIISA.Models.Request
         /// Observaciones acerca del procedimiento
         /// </summary>
         /// <tipo_campo>String</tipo_campo>
-        /// <requerido>true</requerido>
-        [Required]
+        /// <requerido>false</requerido>
         [JsonProperty("observaciones")]
         public string? Observaciones { get; set; }
 
@@ -108,8 +112,8 @@ namespace HUSI_SIISA.Models.Request
         /// Numero MiPres.
         /// </summary>
         /// <tipo_campo>String</tipo_campo>
-        /// <requerido>true</requerido>
-        [Required]
+        /// <requerido>false</requerido>
+    
         [JsonProperty("num_MiPres")]
         public string? Num_MiPres { get; set; }
 
@@ -126,8 +130,8 @@ namespace HUSI_SIISA.Models.Request
         /// Tesxto corresponduiente a la Interpretacion
         /// </summary>
         /// <tipo_campo>String</tipo_campo>
-        /// <requerido>true</requerido>
-        [Required]
+        /// <requerido>fañse</requerido>
+    
         [JsonProperty("interpretacion")]
         public string? Interpretacion { get; set; }
     }
@@ -204,18 +208,9 @@ namespace HUSI_SIISA.Models.Request
         /// Observaciones generales que se requieran
         /// </summary>
         /// <tipo_campo>String</tipo_campo>
-        /// <requerido>true</requerido>
-        [Required]
+        /// <requerido>false</requerido>
         [JsonProperty("observaciones")]
         public string? Observaciones { get; set; }
 
-        /// <summary>
-        /// Informacion de la  Interpretacion
-        /// </summary>
-        /// <tipo_campo>String</tipo_campo>
-        /// <requerido>true</requerido>
-        [Required]
-        [JsonProperty("interpretacion")]
-        public string? Interpretacion { get; set; }
     }
 }

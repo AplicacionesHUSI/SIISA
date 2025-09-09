@@ -48,8 +48,8 @@ namespace HUSI_SIISA.Utilities
         /// Relacion del Profesional con la consulta.
         /// </summary>
         /// <tipo_campo>String</tipo_campo>
-        /// <requerido>true</requerido>
-        [Required]
+        /// <requerido>false</requerido>
+   
         [JsonProperty("relacion")]
         public string? Relacion { get; set; }
     }

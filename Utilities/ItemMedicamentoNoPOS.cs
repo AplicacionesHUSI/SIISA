@@ -58,7 +58,7 @@ namespace HUSI_SIISA.Utilities
         /// <requerido>true</requerido>
         [Required]
         [JsonProperty("formulacion")]
-        public FormulacionStruct Formulacion { get; set; }
+        public string? Formulacion { get; set; }
 
         /// <summary>
         /// Cantidad por ciclo.
@@ -109,8 +109,8 @@ namespace HUSI_SIISA.Utilities
         /// Informacion de la aplicacion del producto o medicamento
         /// </summary>
         /// <tipo_dato>String</tipo_dato>
-        /// <requerido>true</requerido>
-        [Required]
+        /// <requerido>false</requerido>
+     
         [JsonProperty("aplicacion")]
         public string? Aplicacion { get; set; }
     }
@@ -118,34 +118,5 @@ namespace HUSI_SIISA.Utilities
     /// <summary>
     /// Estructura Generica para la formulacion
     /// </summary>
-    public struct FormulacionStruct
-    {
-        /// <summary>
-        /// Campo Uno de La formulacion
-        /// </summary>
-        /// <tipo_campo>String</tipo_campo>
-        /// <requerido>SI</requerido>
-        public string Campo1;
 
-        /// <summary>
-        /// Campo Dos de la formulacion
-        /// </summary>
-        /// <tipo_campo>String</tipo_campo>
-        /// <requerido>SI</requerido>
-        public string Campo2;
-
-        /// <summary>
-        /// Campo Tres de la Formulacion
-        /// </summary>
-        /// <tipo_campo>String</tipo_campo>
-        /// <requerido>SI</requerido>
-        public string Campo3;
-
-        /// <summary>
-        /// Campo Cuatro de la Formulacion
-        /// </summary>
-        /// <tipo_campo>String</tipo_campo>
-        /// <requerido>SI</requerido>
-        public string Campo4;
-    }
 }

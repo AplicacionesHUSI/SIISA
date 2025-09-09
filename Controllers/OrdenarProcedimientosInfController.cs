@@ -19,7 +19,7 @@ namespace HUSI_SIISA.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Produces("application/json")]
-    public class OrdenarProcedimientosController : ControllerBase
+    public class OrdenarProcedimientosInfController : ControllerBase
     {
         private static Logger logSahico = LogManager.GetCurrentClassLogger();
 
@@ -38,7 +38,7 @@ namespace HUSI_SIISA.Controllers
         /// </remarks>
         [HttpPost]
         [Route("actualizarProcedimientos")]
-        public ActionResult ActualizarProcedimientos([FromBody] OrdenarProcedimientosRequest ordenarProcedimientosRequest)
+        private ActionResult ActualizarProcedimientos([FromBody] OrdenarProcedimientosRequest ordenarProcedimientosRequest)
         {
             OrdenarProcedimientosResponse ordenarProcedimientosResponse = new();
 
@@ -91,7 +91,7 @@ namespace HUSI_SIISA.Controllers
         /// </remarks>
         [HttpPost]
         [Route("ordenarProcedimientos")]
-        public ActionResult OrdenarProcedimientos([FromBody] OrdenarProcedimientosRequest ordenarProcedimientosRequest)
+        private ActionResult OrdenarProcedimientos([FromBody] OrdenarProcedimientosRequest ordenarProcedimientosRequest)
         {
             OrdenarProcedimientosResponse ordenarProcedimientosResponse = new();
             logSahico.Info("Mensaje Recibido de Orden de Procedimientos:" + ordenarProcedimientosRequest.ToString());
@@ -120,18 +120,13 @@ namespace HUSI_SIISA.Controllers
                     string salto = Environment.NewLine;
                     Int32 NumeroNota = 0;
                     Int16 medicoOrdena = 0;
-
-                    MedicosWs.ImedicosWSClient mw = new MedicosWs.ImedicosWSClient();
-                    MedicosWs.RespuestasWS rptaMedicos = new MedicosWs.RespuestasWS();
-
-                    rptaMedicos = mw.idUsuarioPersonalAsync(ordenarProcedimientosRequest.IdMedico.ToString()).Result;
                     //clientePacientesHusi.husiCliente pacienteW = new clientePacientesHusi.husiCliente();
                     //clienteInfMed.ImedicosWSClient clienteMedicos = new clienteInfMed.ImedicosWSClient();
-                    //clienteInfMed.RespuestasWS rptaMedicos = clienteMedicos.idUsuarioPersonal();
-                    if (rptaMedicos.CodigoRpta.Equals("00"))
-                    {
-                        medicoOrdena = Int16.Parse(rptaMedicos.resultado);
-                    }
+                    //clienteInfMed.RespuestasWS rptaMedicos = clienteMedicos.idUsuarioPersonal(procedimientos.IdMedico.ToString());
+                    //if (rptaMedicos.CodigoRpta.Equals("00"))
+                    //{
+                    //    medicoOrdena = Int16.Parse(rptaMedicos.resultado);
+                    //}
                     DBConnection conn = new();
                     using (SqlConnection conexion = new(conn.getCs()))
                     {
@@ -180,25 +175,13 @@ namespace HUSI_SIISA.Controllers
                             }
 
                         }
+
 #pragma warning restore CS8602 // Desreferencia de una referencia posiblemente NULL.
 
                         dataCargar = dataCargar + "___________________FIN PROCEDIMIENTOS_____________________" + salto;
-                        string tipoConsulta = ordenarProcedimientosRequest.IdSede switch
-                        {
-                            1 => "5",
-                            68 => "4",
-                            _ => ""
-                        };
-
-                        short tipoNota = ordenarProcedimientosRequest.IdSede switch
-                        {
-                            1 => 812,
-                            68 => 823,
-                            _ => (short)0
-                        };
 
                         ValidacionNotas objNotas = new();
-                        objNotas = utilLocal.ValidaConsulta(ordenarProcedimientosRequest.IdConsulta, tipoConsulta, ordenarProcedimientosRequest.Atencion);
+                        objNotas = utilLocal.ValidaConsulta(ordenarProcedimientosRequest.IdConsulta, "4", ordenarProcedimientosRequest.Atencion);
                         NumeroNota = objNotas.IdNota;
                         if (NumeroNota > 0 && objNotas.IdNotaProc == 0)
                         {
@@ -213,8 +196,8 @@ namespace HUSI_SIISA.Controllers
                             cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = 30;
                             cmdNotasAte.Parameters.Add("@desNota", SqlDbType.Text).Value = dataCargar;
                             cmdNotasAte.Parameters.Add("@usuario", SqlDbType.SmallInt).Value = medicoOrdena;
-                            cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = tipoNota;
-                            logSahico.Info("********************* Valor de tipoNota:" + tipoNota + "  Nota:" + NumeroNota + "   Atencion:" + ordenarProcedimientosRequest.Atencion + "****************************");
+                            cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = 822;
+                            logSahico.Info("********************* Valor de tipoNota:" + 822 + "  Nota:" + NumeroNota + "   Atencion:" + ordenarProcedimientosRequest.Atencion + "****************************");
                             if (cmdNotasAte.ExecuteNonQuery() > 0)
                             {
                                 logSahico.Info("Se inserta informacion en hceNotasAte O.K Medico que Ordena:" + medicoOrdena);
@@ -222,7 +205,7 @@ namespace HUSI_SIISA.Controllers
                                 actHistoria2 += "VALUES (@atencion,@esquema,@esquemaAte,@ubicacion, @medico,@traslado,@fechaEsquema,@indicadorHabilitado, @indicadorActivado,@fechaCerrado, @EstadoApDx, @orden,@rCritico)";
                                 SqlCommand cmdEsquemasAte = new SqlCommand(actHistoria2, conexion, txTransaccion01);
                                 cmdEsquemasAte.Parameters.Add("@atencion", SqlDbType.Int).Value = ordenarProcedimientosRequest.Atencion;
-                                cmdEsquemasAte.Parameters.Add("@esquema", SqlDbType.Int).Value = tipoNota;
+                                cmdEsquemasAte.Parameters.Add("@esquema", SqlDbType.Int).Value = 822;
                                 cmdEsquemasAte.Parameters.Add("@esquemaAte", SqlDbType.Int).Value = NumeroNota;
                                 cmdEsquemasAte.Parameters.Add("@ubicacion", SqlDbType.SmallInt).Value = 30;
                                 cmdEsquemasAte.Parameters.Add("@medico", SqlDbType.SmallInt).Value = medicoOrdena;
@@ -288,8 +271,8 @@ namespace HUSI_SIISA.Controllers
                             cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = 30;
                             cmdNotasAte.Parameters.Add("@desNota", SqlDbType.VarChar).Value = dataCargar;
                             cmdNotasAte.Parameters.Add("@usuario", SqlDbType.SmallInt).Value = medicoOrdena;
-                            cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = tipoNota;
-                            logSahico.Info("********************* Valor de tipoNota:" + tipoNota + "  Nota:" + NumeroNota + "   Atencion:" + ordenarProcedimientosRequest.Atencion + "****************************");
+                            cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = 822;
+                            logSahico.Info("********************* Valor de tipoNota:" + 822 + "  Nota:" + NumeroNota + "   Atencion:" + ordenarProcedimientosRequest.Atencion + "****************************");
                             if (cmdNotasAte.ExecuteNonQuery() > 0)
                             {
                                 logSahico.Info("Se Actualiza informacion en hceNotasAte O.K");

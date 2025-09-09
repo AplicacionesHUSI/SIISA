@@ -37,6 +37,8 @@ namespace HUSI_SIISA.Models.Response
 			public string EsExtra { get; set; }
 			public string TieneServicioControl { get; set; }
 			public string TieneMasControles { get; set; }
-		
-	}
+
+            public bool RutasCuidado { get; set; }
+
+    }
 }

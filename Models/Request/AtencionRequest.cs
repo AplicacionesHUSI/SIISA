@@ -34,5 +34,9 @@ namespace HUSI_SIISA.Models.Request
         [Required]
         [JsonProperty("servicio")]
         public Int16 Servicio { get; set; }
+
+        [Required]
+        [JsonProperty("idSede")]
+        public Int16 IdSede { get; set; }
     }
 }

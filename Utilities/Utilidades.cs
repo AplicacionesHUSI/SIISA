@@ -101,6 +101,12 @@ namespace HUSI_SIISA.Utilities
                     case "3":
                         qryValida = "SELECT nroConsultaSahico,idNota,procedimientos,idNotaProc,medicamentos,idNotaMed FROM  hceIntegraSahicoRel WHERE idAtencion=@idAtencion AND nroConsultaSahico=@nroConsulta";
                         break;
+                    case "4":
+                        qryValida = "SELECT nroConsultaSahico,idNota,procedimientos,idNotaProc,medicamentos,idNotaMed FROM  hceIntegraSahicoRel WHERE idAtencion=@idAtencion AND nroConsultaSahico=@nroConsulta and idTipoNota=821";
+                        break;
+                    case "5":
+                        qryValida = "SELECT nroConsultaSahico,idNota,procedimientos,idNotaProc,medicamentos,idNotaMed FROM  hceIntegraSahicoRel WHERE idAtencion=@idAtencion AND nroConsultaSahico=@nroConsulta and idTipoNota=807";
+                        break;
                 }
                 SqlCommand cmdValida = new SqlCommand(qryValida, conexion);
                 cmdValida.Parameters.Add("@nroConsulta", SqlDbType.Int).Value = nroConsulta;

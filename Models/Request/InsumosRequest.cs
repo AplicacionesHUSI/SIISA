@@ -49,18 +49,18 @@ namespace HUSI_SIISA.Models.Request
         /// <summary>
         /// Nombre del Esquema asociado.
         /// </summary>
-        /// <requerido>SI</requerido>
+        /// <requerido>NO</requerido>
         /// <tipo_dato>String</tipo_dato>
-        [Required]
+   
         [JsonProperty("esquema")]
         public string? Esquema {get; set;}
 
         /// <summary>
         /// Nombre del Servicio Asociado 
         /// </summary>
-        /// <requerido>SI</requerido>
+        /// <requerido>NO</requerido>
         /// <tipo_dato>String</tipo_dato>
-        [Required]
+        
         [JsonProperty("servicio_solicitado")]
         public string? Servicio_Solicitado {get; set;}
 
@@ -85,9 +85,9 @@ namespace HUSI_SIISA.Models.Request
         /// <summary>
         /// Observaciones de la formula
         /// </summary>
-        /// <requerido>SI</requerido>
+        /// <requerido>NO</requerido>
         /// <tipo_dato>String</tipo_dato>
-        [Required]
+      
         [JsonProperty("observaciones")]
         public string? Observaciones {get; set;}
 

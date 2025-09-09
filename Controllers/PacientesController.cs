@@ -110,7 +110,11 @@ namespace HUSI_SIISA.Controllers
 						if (Cliente.IsDBNull(38)) { pr.autoEnvMsjEmail = ""; } else { pr.autoEnvMsjEmail = Cliente.GetString(38); }
 						if (Cliente.IsDBNull(39)) { pr.EpsAseg = "0"; } else { pr.EpsAseg = Cliente.GetInt32(39).ToString(); }
 						if (Cliente.IsDBNull(40)) { PcteEsp = "0"; } else { if (Cliente.GetBoolean(40)) { PcteEsp = "1"; } else { PcteEsp = "0"; } }
-						pr.Estado = "01 | Proceso Exitoso";
+                        /*Alertas ale = new Alertas();
+						ale.Estado = true;
+						ale.Texto = "Prueba de Alerta Paciente";
+						pr.Alerta = ale;*/
+                        pr.Estado = "01 | Proceso Exitoso";
 						return Ok(pr);
 					}
 					else

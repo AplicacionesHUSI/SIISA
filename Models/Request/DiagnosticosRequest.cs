@@ -14,27 +14,32 @@ namespace HUSI_SIISA.Models.Request
         /// <summary>
         /// ID Consulta o Numero de la consulta
         /// </summary>
-        /// <requerido>SI</requerido>
+        /// <requerido>NO</requerido>
         /// <tipo_dato>Integer</tipo_dato>
-        [Required]
+
         [JsonProperty("idconsulta")]
         public Int32 IdConsulta {get; set;}
+
+
+        [Required]
+        [JsonProperty("idSede")]
+        public Int16 IdSede { get; set; }
 
         /// <summary>
         /// ID del Paciente en SAHI. Se puede obtener del servicio Atencion
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>Integer</tipo_dato>
-        [Required]
+
         [JsonProperty("idpaciente")]
         public Int32 IdPaciente {get; set;}
 
         /// <summary>
         /// ID Atencion del Paciente.
         /// </summary>
-        /// <requerido>SI</requerido>
+        /// <requerido>NO</requerido>
         /// <tipo_dato>Integer</tipo_dato>
-        [Required]
+   
         [JsonProperty("idatencion")]
         public Int32 IdAtencion {get; set;}
 
@@ -43,7 +48,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>Integer</tipo_dato>
-        [Required]
+    
         [JsonProperty("fecha")]
         public DateTime Fecha {get; set;}
 
@@ -52,7 +57,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>Integer</tipo_dato>
-        [Required]
+    
         [JsonProperty("dxDestino")]
         public Int32 DxDestino { get; set; }
 
@@ -95,7 +100,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>string</tipo_dato>
-        [Required]
+     
         [JsonProperty("tipo")]
         public string? Tipo {get; set;}
 
@@ -113,7 +118,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>Complejo TNM</tipo_dato>
-        [Required]
+    
         [JsonProperty("tnmDx")]
         public TNM? TnmDx {get; set;}
 
@@ -122,7 +127,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>Complejo Res0247</tipo_dato>
-        [Required]
+      
         [JsonProperty("infresol0247")]
         public Res0247? InfResol_0247{get; set;}
 
@@ -138,7 +143,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>String</tipo_dato>
-        [Required]
+     
         [JsonProperty("estado")]
         public string? Estado {get; set;}
 
@@ -147,7 +152,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>String</tipo_dato>
-        [Required]
+ 
         [JsonProperty("tumor")]
         public string? Tumor { get; set; }
 
@@ -156,7 +161,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>String</tipo_dato>
-        [Required]
+  
         [JsonProperty("nodulo")]
         public string? Nodulo {get; set;}
 
@@ -165,7 +170,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>String</tipo_dato>
-        [Required]
+     
         [JsonProperty("metastasis")]
         public string? Metastasis {get; set; }
     }
@@ -181,25 +186,25 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>DateTime</tipo_dato>
-        [Required]
+     
         [JsonProperty("fec_rec_muestra")]
-        public DateTime Fec_Rec_Muestra {get; set; }
+        public string Fec_Rec_Muestra {get; set; }
 
         /// <summary>
         ///  valor para la Fecha de Informe Histopatologico Valido
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>Datetime</tipo_dato>
-        [Required]
+      
         [JsonProperty("fec_inf_histo_val")]
-        public DateTime Fec_Inf_Histo_Val {get; set;}
+        public string Fec_Inf_Histo_Val {get; set;}
 
         /// <summary>
         /// Valor, para No Hubo Diaqgnostico por Histopatologia
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>string</tipo_dato>
-        [Required]
+
         [JsonProperty("nh_dx_x_histo")]
         private string? Nh_Dx_x_Histo {get; set;}
 
@@ -208,7 +213,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>string</tipo_dato>
-        [Required]
+      
         [JsonProperty("histologia")]
         public string? Histologia {get; set;}
 
@@ -217,7 +222,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>string</tipo_dato>
-        [Required]
+      
         [JsonProperty("grado_dif")]
         public string? Grado_Dif {get; set;}
 
@@ -226,7 +231,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>string</tipo_dato>
-        [Required]
+      
         [JsonProperty("obj_trata_ini")]
         public string? Obj_Trata_Ini {get; set;}
 
@@ -235,7 +240,7 @@ namespace HUSI_SIISA.Models.Request
         /// </summary>
         /// <requerido>SI</requerido>
         /// <tipo_dato>string</tipo_dato>
-        [Required]
+   
         [JsonProperty("obj_interv_medica")]
         public string? Obj_Interv_Medica {get; set;}
     }
