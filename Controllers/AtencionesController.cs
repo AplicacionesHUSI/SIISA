@@ -38,6 +38,7 @@ namespace HUSI_SIISA.Controllers
         [Route("GetConsAtenXDoc")]
         public ActionResult GetConsAtenXDoc([FromBody] AtencionRequest atencionRequest)
         {
+            AtencionResponse atencionResponse = new();
 
             try
             {

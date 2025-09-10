@@ -117,16 +117,16 @@ namespace HUSI_SIISA.Controllers
                 string salto = Environment.NewLine;
                 Int32 NumeroNota = 0;
 
-               // datosPaciente.husiCliente pacienteW = new datosPaciente.husiCliente();
+                datosPaciente.husiCliente pacienteW = new datosPaciente.husiCliente();
                 try
                 {
                     if (medidasPac.IdConsulta > 0 && medidasPac.IdPaciente.Length > 0)
                     {
 
                         logSahico.Info("Consumo de Servicio de Medidas: Nro Consulta:" + medidasPac.NroConsulta + "  medidasPac.IdPaciente:" + medidasPac.IdPaciente);
-                 //       datosPaciente.IhusiClienteWSClient paciente = new datosPaciente.IhusiClienteWSClient();
-                   //     pacienteW =await  paciente.Consulta_V3Async(medidasPac.IdPaciente);
-                     //   logSahico.Info("Datos Paciente: Nro Doc:" + pacienteW.NumDocumento+ "   Tipo Doc:" + pacienteW.IdTipoDoc);
+                        datosPaciente.IhusiClienteWSClient paciente = new datosPaciente.IhusiClienteWSClient();
+                        pacienteW =await  paciente.Consulta_V3Async(medidasPac.IdPaciente);
+                        logSahico.Info("Datos Paciente: Nro Doc:" + pacienteW.NumDocumento+ "   Tipo Doc:" + pacienteW.IdTipoDoc);
                         //clienteWSatenciones.IatencionesClient atencionesCli = new clienteWSatenciones.IatencionesClient();
                         //clienteWSatenciones.Atencion atencionPaciente = atencionesCli.ConsAtenXDoc(pacienteW.NumDocumento, pacienteW.IdTipoDoc);
                         logSahico.Info("Numero de Atencion del Paciente:" + medidasPac.NroAtencion);
@@ -134,8 +134,8 @@ namespace HUSI_SIISA.Controllers
                         dataCargar = "________________________MEDIDAS___________________________" + salto;
                         dataCargar = dataCargar + "Fecha:" + DateTime.Now;
                         dataCargar = dataCargar + " Numero de Atencion:" + medidasPac.NroAtencion + salto + "                         Numero Consulta:" + medidasPac.IdConsulta + salto;
-                       // dataCargar = dataCargar + "No Documento:" + pacienteW.NumDocumento + "  Fecha de Nacimiento " + pacienteW.FecNacimiento.ToString("dd/MM/yyyy") + salto;
-                        //dataCargar = dataCargar + "Paciente:" + pacienteW.NomCliente + " " + pacienteW.ApeCliente+ "         Tel:" + pacienteW.TelCasa + salto;
+                        dataCargar = dataCargar + "No Documento:" + pacienteW.NumDocumento + "  Fecha de Nacimiento " + pacienteW.FecNacimiento.ToString("dd/MM/yyyy") + salto;
+                        dataCargar = dataCargar + "Paciente:" + pacienteW.NomCliente + " " + pacienteW.ApeCliente+ "         Tel:" + pacienteW.TelCasa + salto;
                         dataCargar = dataCargar + " " + salto;
                         dataCargar = dataCargar + "Peso:" + medidasPac.Peso + salto;
                         dataCargar = dataCargar + "Talla:" + medidasPac.Talla + salto;

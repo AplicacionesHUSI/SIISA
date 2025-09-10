@@ -131,10 +131,10 @@ namespace HUSI_SIISA.Controllers
 
                 //var rptaMedicos = clienteMedicos.idUsuarioPersonal(ordenarMedicamentosRequest.IdMedico.ToString());
                 Int16 medicoOrdena = 0;
-                //if (rptaMedicos.CodigoRpta.Equals("00"))
-                //{
-                //    medicoOrdena = Int16.Parse(rptaMedicos.resultado);
-                //}
+                if (rptaMedicos.CodigoRpta.Equals("00"))
+                {
+                    medicoOrdena = Int16.Parse(rptaMedicos.resultado);
+                }
                 // Obtener tipo de consulta
                 string tipoConsulta = ordenarMedicamentosRequest.IdSede switch
                 {
@@ -151,15 +151,16 @@ namespace HUSI_SIISA.Controllers
 #pragma warning disable CS8602 // Desreferencia de una referencia posiblemente NULL.
                     if (ordenarMedicamentosRequest.IdConsulta > 0 && ordenarMedicamentosRequest.IdPaciente > 0 && (ordenarMedicamentosRequest.Items_Medicamentos.Count > 0 || ordenarMedicamentosRequest.Items_med_NPos.Count > 0))
                     {
-                        //clientePacientesHusi.IhusiClienteWSClient paciente = new clientePacientesHusi.IhusiClienteWSClient();
-                        //pacienteW = paciente.Consulta_V3(ordenarMedicamentosRequest.IdPaciente.ToString());
+                        //datosPaciente.IhusiClienteWSClient paciente = new datosPaciente.IhusiClienteWSClient();
+                        //datosPaciente.husiCliente pacienteW = new datosPaciente.husiCliente();
+                        //pacienteW = await paciente.Consulta_V3Async(ordenarMedicamentosRequest.IdPaciente.ToString());
                         dataCargar = "_________________ORDEN MEDICAMENTOS_______________________" + saltoLinea;
 
                         dataCargar = dataCargar + "Fecha:" + ordenarMedicamentosRequest.Fecha;
                         dataCargar = dataCargar + " Numero de Atencion:" + ordenarMedicamentosRequest.Atencion + saltoLinea + "Numero Consulta:" + ordenarMedicamentosRequest.IdConsulta;
                         //dataCargar = dataCargar + "  No Documento:" + pacienteW.NumDocumento + saltoLinea + "Fecha de Nacimiento " + pacienteW.FecNacimiento + saltoLinea;
                         //dataCargar = dataCargar + "Paciente:" + pacienteW.NomCliente + " " + pacienteW.ApeCliente + "         Tel:" + pacienteW.TelCasa + saltoLinea;
-                        //dataCargar = dataCargar + " " + saltoLinea;
+                        dataCargar = dataCargar + " " + saltoLinea;
 
                         dataCargar = ordenarMedicamentosRequest.Items_Medicamentos.Count > 0 ? dataCargar + "Medicamentos POS" + saltoLinea + saltoLinea : dataCargar;
                         foreach (ItemMedicamentoPOS medicamento in ordenarMedicamentosRequest.Items_Medicamentos)

@@ -76,12 +76,13 @@ namespace HUSI_SIISA.Controllers
             try
             {
 
-                MedicosWs.ImedicosWSClient mw = new MedicosWs.ImedicosWSClient();
+                MedicosWs.ImedicosWSClient clienteInfMed = new MedicosWs.ImedicosWSClient();
                 MedicosWs.RespuestasWS rptaProfesionales = new MedicosWs.RespuestasWS();
 
-                rptaProfesionales = mw.idUsuarioPersonalAsync(historiaRequest.IdProfesional.ToString()).Result;
+                rptaProfesionales = clienteInfMed.idUsuarioPersonalAsync(historiaRequest.IdProfesional.ToString()).Result;
                 //clienteInfMed.ImedicosWSClient clienteProfesionales = new clienteInfMed.ImedicosWSClient();
                 //clienteInfMed.RespuestasWS rptaProfesionales = clienteProfesionales.idUsuarioPersonal(historiaInsertar.ID_Profesional);
+                
                 if (rptaProfesionales.CodigoRpta.Equals("00"))
                 {
                     Profesional = Int16.Parse(rptaProfesionales.resultado);
