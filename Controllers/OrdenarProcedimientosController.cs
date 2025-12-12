@@ -197,6 +197,14 @@ namespace HUSI_SIISA.Controllers
                             _ => (short)0
                         };
 
+                        // Obtener el id Ubicación según la sede CJO(1) = 30 Infecto(68) = 42
+                        Int32 IdUbicacion = ordenarProcedimientosRequest.IdSede switch
+                        {
+                            1 => 30,
+                            68 => 42,
+                            _ => (Int32)0
+                        };
+
                         ValidacionNotas objNotas = new();
                         objNotas = utilLocal.ValidaConsulta(ordenarProcedimientosRequest.IdConsulta, tipoConsulta, ordenarProcedimientosRequest.Atencion);
                         NumeroNota = objNotas.IdNota;
@@ -210,7 +218,7 @@ namespace HUSI_SIISA.Controllers
                             cmdNotasAte.Parameters.Add("@nota", SqlDbType.Int).Value = NumeroNota;
                             cmdNotasAte.Parameters.Add("@atencion", SqlDbType.Int).Value = ordenarProcedimientosRequest.Atencion;
                             cmdNotasAte.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = ordenarProcedimientosRequest.Fecha;
-                            cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = 30;
+                            cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = IdUbicacion;
                             cmdNotasAte.Parameters.Add("@desNota", SqlDbType.Text).Value = dataCargar;
                             cmdNotasAte.Parameters.Add("@usuario", SqlDbType.SmallInt).Value = medicoOrdena;
                             cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = tipoNota;
@@ -224,7 +232,7 @@ namespace HUSI_SIISA.Controllers
                                 cmdEsquemasAte.Parameters.Add("@atencion", SqlDbType.Int).Value = ordenarProcedimientosRequest.Atencion;
                                 cmdEsquemasAte.Parameters.Add("@esquema", SqlDbType.Int).Value = tipoNota;
                                 cmdEsquemasAte.Parameters.Add("@esquemaAte", SqlDbType.Int).Value = NumeroNota;
-                                cmdEsquemasAte.Parameters.Add("@ubicacion", SqlDbType.SmallInt).Value = 30;
+                                cmdEsquemasAte.Parameters.Add("@ubicacion", SqlDbType.SmallInt).Value = IdUbicacion;
                                 cmdEsquemasAte.Parameters.Add("@medico", SqlDbType.SmallInt).Value = medicoOrdena;
                                 cmdEsquemasAte.Parameters.Add("@traslado", SqlDbType.Int).Value = 1;
                                 cmdEsquemasAte.Parameters.Add("@fechaEsquema", SqlDbType.DateTime).Value = ordenarProcedimientosRequest.Fecha;
@@ -285,7 +293,7 @@ namespace HUSI_SIISA.Controllers
                             cmdNotasAte.Parameters.Add("@nota", SqlDbType.Int).Value = NumeroNota;
                             cmdNotasAte.Parameters.Add("@atencion", SqlDbType.Int).Value = ordenarProcedimientosRequest.Atencion;
                             cmdNotasAte.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = ordenarProcedimientosRequest.Fecha;
-                            cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = 30;
+                            cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = IdUbicacion;
                             cmdNotasAte.Parameters.Add("@desNota", SqlDbType.VarChar).Value = dataCargar;
                             cmdNotasAte.Parameters.Add("@usuario", SqlDbType.SmallInt).Value = medicoOrdena;
                             cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = tipoNota;

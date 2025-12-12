@@ -162,6 +162,14 @@ namespace HUSI_SIISA.Controllers
                             _ => ""
                         };
 
+                        // Obtener el id Ubicación según la sede CJO(1) = 30 Infecto(68) = 42
+                        Int32 IdUbicación = historiaRequest.IdSede switch
+                        {
+                            1 => 30,
+                            68 => 42,
+                            _ => (Int32)0
+                        };
+
 #pragma warning disable CS8604 // Posible argumento de referencia nulo
                         ValidacionNotas objNotas = utilLocal.ValidaConsulta(Int32.Parse(historiaRequest.IdConsulta), tipoConsulta, Int32.Parse(historiaRequest.IdAtencion));
 #pragma warning restore CS8604 // Posible argumento de referencia nulo
@@ -182,7 +190,7 @@ namespace HUSI_SIISA.Controllers
                                           CultureInfo.InvariantCulture);
 
                             //cmdNotasAte.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = DateTime.Now;
-                            cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = 30;
+                            cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = IdUbicación;
                             cmdNotasAte.Parameters.Add("@desNota", SqlDbType.Text).Value = dataCargar;
                             cmdNotasAte.Parameters.Add("@usuario", SqlDbType.SmallInt).Value = Profesional;
                             cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = tipoNota;
@@ -196,7 +204,7 @@ namespace HUSI_SIISA.Controllers
                                 cmdEsquemasAte.Parameters.Add("@atencion", SqlDbType.Int).Value = historiaRequest.IdAtencion;
                                 cmdEsquemasAte.Parameters.Add("@esquema", SqlDbType.Int).Value = tipoNota;
                                 cmdEsquemasAte.Parameters.Add("@esquemaAte", SqlDbType.Int).Value = NumeroNota;
-                                cmdEsquemasAte.Parameters.Add("@ubicacion", SqlDbType.SmallInt).Value = 30;
+                                cmdEsquemasAte.Parameters.Add("@ubicacion", SqlDbType.SmallInt).Value = IdUbicación; //30 CJO 42 INFECTO
                                 cmdEsquemasAte.Parameters.Add("@medico", SqlDbType.SmallInt).Value = Profesional;
                                 cmdEsquemasAte.Parameters.Add("@traslado", SqlDbType.Int).Value = 1;
                                 cmdEsquemasAte.Parameters.Add("@fechaEsquema", SqlDbType.DateTime).Value = DateTime.ParseExact(historiaRequest.FechaConsulta.Substring(0, 19),
@@ -287,7 +295,7 @@ namespace HUSI_SIISA.Controllers
                                           "yyyy-MM-dd'T'HH:mm:ss",
                                           CultureInfo.InvariantCulture);
                             //cmdNotasAte.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = DateTime.Now;
-                            cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = 30;
+                            cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = IdUbicación;
                             cmdNotasAte.Parameters.Add("@desNota", SqlDbType.VarChar).Value = dataCargar;
                             cmdNotasAte.Parameters.Add("@usuario", SqlDbType.SmallInt).Value = Profesional;
                             cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = tipoNota;

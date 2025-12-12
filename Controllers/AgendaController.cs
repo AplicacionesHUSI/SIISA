@@ -272,7 +272,7 @@ namespace HUSI_SIISA.Controllers
                 //var response = await _httpClient.GetAsync($"https://integration-sahi-prod-001.azurewebsites.net/Appointment/List?DoctorID={doctorId}&startDate={startDate}&endDate={endDate}&state=A");
 
                 //pruebas
-                //logSahico.Info($"Solicitud: https://integration-sahi-test-001.azurewebsites.net/Appointment/List?DoctorID={doctorId}&startDate={startDate}&endDate={endDate}&state=A");
+                logSahico.Info($"Solicitud: https://integration-sahi-test-001.azurewebsites.net/Appointment/List?DoctorID={doctorId}&startDate={startDate}&endDate={endDate}&state=A");
                 var response = await _httpClient.GetAsync($"https://integration-sahi-test-001.azurewebsites.net/Appointment/List?DoctorID={doctorId}&startDate={startDate}&endDate={endDate}&state=A");
 
 

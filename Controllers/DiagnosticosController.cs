@@ -123,6 +123,14 @@ namespace HUSI_SIISA.Controllers
                     _ => ""
                 };
 
+                // Obtener el id Ubicación según la sede CJO(1) = 30 Infecto(68) = 42
+                Int32 IdUbicación = dxOrigen.IdSede switch
+                {
+                    1 => 30,
+                    68 => 42,
+                    _ => (Int32)0
+                };
+
                 var utilLocal = new Utilidades();
                 ValidacionNotas objNotas = utilLocal.ValidaConsulta(dxOrigen.IdConsulta, tipoConsulta, dxOrigen.IdAtencion);
                 int sahico = objNotas.NroConsultaSahico;
@@ -150,7 +158,7 @@ namespace HUSI_SIISA.Controllers
                         cmd.Parameters.Add("@nota", SqlDbType.Int).Value = numeroNota;
                         cmd.Parameters.Add("@atencion", SqlDbType.Int).Value = dxOrigen.IdAtencion;
                         cmd.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = dxOrigen.Fecha;
-                        cmd.Parameters.Add("@ubicacion", SqlDbType.Int).Value = 30;
+                        cmd.Parameters.Add("@ubicacion", SqlDbType.Int).Value = IdUbicación;
                         cmd.Parameters.Add("@desNota", SqlDbType.VarChar).Value = dataCargar;
                         cmd.Parameters.Add("@usuario", SqlDbType.SmallInt).Value = 0;
                         cmd.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = tipoNota;
@@ -237,6 +245,14 @@ namespace HUSI_SIISA.Controllers
 
         private string GenerarTextoDiagnosticos(DiagnosticosRequest dx)
         {
+            // Obtener el id Ubicación según la sede CJO(1) = 30 Infecto(68) = 42
+            Int32 IdUbicación = dx.IdSede switch
+            {
+                1 => 30,
+                68 => 42,
+                _ => (Int32)0
+            };
+
             var sb = new StringBuilder();
             var nl = Environment.NewLine;
 
@@ -246,41 +262,44 @@ namespace HUSI_SIISA.Controllers
             foreach (var item in dx.Items_Dx)
             {
                 sb.AppendLine($"Codigo Dx: {item.CodigoDx}     Nombre: {item.NombreDx}");
-                sb.AppendLine($"Tipo: {item.Tipo}      Confirmado: {item.Confirmado}");
-                sb.AppendLine("T.N.M");
-
-                if (!string.IsNullOrEmpty(item.TnmDx?.Tumor))
+                if (IdUbicación == 30)
                 {
-                    var partes = item.TnmDx.Tumor.Split(',');
-                    if (partes.Length >= 2)
-                        sb.AppendLine($"Tumor: {partes[0]} {partes[1]}");
-                }
+                    sb.AppendLine($"Tipo: {item.Tipo}      Confirmado: {item.Confirmado}");
+                    sb.AppendLine("T.N.M");
 
-                if (!string.IsNullOrEmpty(item.TnmDx?.Estado))
-                {
-                    var partes = item.TnmDx.Estado.Split(',');
-                    if (partes.Length >= 2)
-                        sb.AppendLine($"Estado: {partes[0]} {partes[1]}");
-                }
+                    if (!string.IsNullOrEmpty(item.TnmDx?.Tumor))
+                    {
+                        var partes = item.TnmDx.Tumor.Split(',');
+                        if (partes.Length >= 2)
+                            sb.AppendLine($"Tumor: {partes[0]} {partes[1]}");
+                    }
 
-                if (!string.IsNullOrEmpty(item.TnmDx?.Nodulo))
-                {
-                    var partes = item.TnmDx.Nodulo.Split(',');
-                    if (partes.Length >= 2)
-                        sb.AppendLine($"Nodulo: {partes[0]} {partes[1]}");
-                }
+                    if (!string.IsNullOrEmpty(item.TnmDx?.Estado))
+                    {
+                        var partes = item.TnmDx.Estado.Split(',');
+                        if (partes.Length >= 2)
+                            sb.AppendLine($"Estado: {partes[0]} {partes[1]}");
+                    }
 
-                sb.AppendLine("Metastasis: " + item.TnmDx?.Metastasis);
-                sb.AppendLine("Informacion resolucion 0247");
+                    if (!string.IsNullOrEmpty(item.TnmDx?.Nodulo))
+                    {
+                        var partes = item.TnmDx.Nodulo.Split(',');
+                        if (partes.Length >= 2)
+                            sb.AppendLine($"Nodulo: {partes[0]} {partes[1]}");
+                    }
 
-                if (item.InfResol_0247 != null)
-                {
-                    sb.AppendLine("Fecha Informe Histopatologico Valido: " + item.InfResol_0247.Fec_Inf_Histo_Val);
-                    sb.AppendLine("Fecha Recoleccion  de Muestra: " + item.InfResol_0247.Fec_Rec_Muestra);
-                    sb.AppendLine("Grado de Diferenciacion: " + item.InfResol_0247.Grado_Dif);
-                    sb.AppendLine("Histologia: " + item.InfResol_0247.Histologia);
-                    sb.AppendLine("Objetivo Tratamiento Inicial: " + item.InfResol_0247.Obj_Trata_Ini);
-                    sb.AppendLine("Objetivo Intervencion Medica: " + item.InfResol_0247.Obj_Interv_Medica);
+                    sb.AppendLine("Metastasis: " + item.TnmDx?.Metastasis);
+                    sb.AppendLine("Informacion resolucion 0247");
+
+                    if (item.InfResol_0247 != null)
+                    {
+                        sb.AppendLine("Fecha Informe Histopatologico Valido: " + item.InfResol_0247.Fec_Inf_Histo_Val);
+                        sb.AppendLine("Fecha Recoleccion  de Muestra: " + item.InfResol_0247.Fec_Rec_Muestra);
+                        sb.AppendLine("Grado de Diferenciacion: " + item.InfResol_0247.Grado_Dif);
+                        sb.AppendLine("Histologia: " + item.InfResol_0247.Histologia);
+                        sb.AppendLine("Objetivo Tratamiento Inicial: " + item.InfResol_0247.Obj_Trata_Ini);
+                        sb.AppendLine("Objetivo Intervencion Medica: " + item.InfResol_0247.Obj_Interv_Medica);
+                    }
                 }
             }
 

@@ -110,6 +110,14 @@ namespace HUSI_SIISA.Controllers
                 _ => (short)0
             };
 
+            // Obtener el id Ubicación según la sede CJO(1) = 30 Infecto(68) = 42
+            Int32 IdUbicacion = medidasPac.IdSede switch
+            {
+                1 => 30,
+                68 => 42,
+                _ => (Int32)0
+            };
+
             if (medidasPac.IdPaciente.Length > 0 && medidasPac.IdConsulta > 0)
             {
                 Utilidades utilLocal = new Utilidades();
@@ -271,7 +279,7 @@ namespace HUSI_SIISA.Controllers
                                 cmdNotasAte.Parameters.Add("@nota", SqlDbType.Int).Value = NumeroNota;
                                 cmdNotasAte.Parameters.Add("@atencion", SqlDbType.Int).Value = Int32.Parse(medidasPac.NroAtencion);
                                 cmdNotasAte.Parameters.Add("@fechaNota", SqlDbType.DateTime).Value = DateTime.Now;
-                                cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = 30;
+                                cmdNotasAte.Parameters.Add("@ubicacion", SqlDbType.Int).Value = IdUbicacion;
                                 cmdNotasAte.Parameters.Add("@desNota", SqlDbType.VarChar).Value = dataCargar;
                                 cmdNotasAte.Parameters.Add("@usuario", SqlDbType.SmallInt).Value = 0; // No se tiene el medico en Medidas toca implementarlo
                                 cmdNotasAte.Parameters.Add("@tipoNota", SqlDbType.SmallInt).Value = tipoNota;
